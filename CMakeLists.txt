@@ -7,4 +7,4 @@ add_executable(loom
         main.cpp
         thread.cpp
         queue.cpp
-        inter_thread_communication.cpp)
+        itc.cpp)

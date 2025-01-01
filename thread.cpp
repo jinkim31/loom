@@ -38,8 +38,13 @@ void loom::Thread::runEventLoop()
 {
     while(true)
     {
-        if (mEventLoopBreakFlag) // atomic
+        // check thread loop break
+        if (mEventLoopBreakFlag)
             return;
+
+        // receiver callbacks
+        for(const auto& receiver : mReceivers)
+            receiver->receive();
 
         step();
         std::this_thread::sleep_for(mEventLoopDelay);
