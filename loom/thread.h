@@ -20,13 +20,13 @@ public:
 
 protected:
     template<typename T>
-    Transmitter<T> makeTransmitter();
+    typename Transmitter<T>::SharedPtr makeTransmitter();
 
     template<typename T>
-    Receiver<T> makeReceiver(const std::function<void(const T& data)>& callback);  // lambda version
+    typename Receiver<T>::SharedPtr makeReceiver(const std::function<void(const T& data)>& callback);  // lambda version
 
     template<typename T, typename ThreadObjectType>
-    Receiver<T> makeReceiver(ThreadObjectType* object, void (ThreadObjectType::*callbackPtr)(const T& data));  // member function version
+    typename Receiver<T>::SharedPtr makeReceiver(ThreadObjectType* object, void (ThreadObjectType::*callbackPtr)(const T& data));  // member function version
 
     virtual void step(){}
 
@@ -42,23 +42,23 @@ private:
 };
 
 template<typename T>
-Transmitter<T> Thread::makeTransmitter()
+typename Transmitter<T>::SharedPtr Thread::makeTransmitter()
 {
-    return std::make_shared<TransmitterImpl<T>>();
+    return std::make_shared<Transmitter<T>>();
 }
 
 template<typename T>
-Receiver<T> Thread::makeReceiver(const std::function<void(const T& data)>& callback)
+typename Receiver<T>::SharedPtr Thread::makeReceiver(const std::function<void(const T& data)>& callback)
 {
-    auto receiver = std::make_shared<ReceiverImpl<T>>(callback);
+    auto receiver = std::make_shared<Receiver<T>>(callback);
     mReceivers.push_back(receiver);
     return receiver;
 }
 
 template<typename T, typename ThreadObjectType>
-Receiver<T> Thread::makeReceiver(ThreadObjectType *object, void (ThreadObjectType::*callbackPtr)(const T & data))
+typename Receiver<T>::SharedPtr Thread::makeReceiver(ThreadObjectType *object, void (ThreadObjectType::*callbackPtr)(const T & data))
 {
-    auto receiver = std::make_shared<ReceiverImpl<T>>(object, callbackPtr);
+    auto receiver = std::make_shared<Receiver<T>>(object, callbackPtr);
     mReceivers.push_back(receiver);
     return receiver;
 }

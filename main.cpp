@@ -8,7 +8,7 @@ public:
     {
         transmitter = makeTransmitter<int>();
     }
-    loom::Transmitter<int> transmitter;
+    loom::Transmitter<int>::SharedPtr transmitter;
 protected:
     void step() override
     {
@@ -27,7 +27,7 @@ public:
         //receiver = makeReceiver<int>([](const int& data){std::cout<<"received data "<<data<<std::endl;});
         receiver = makeReceiver<int>(this, &ConsumerThread::callback);
     }
-    loom::Receiver<int> receiver;
+    loom::Receiver<int>::SharedPtr receiver;
 private:
     void callback(const int& data)
     {
