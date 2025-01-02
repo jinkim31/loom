@@ -1,5 +1,5 @@
 #include <iostream>
-#include "thread.h"
+#include "loom/thread.h"
 
 class ProducerThread : public loom::Thread
 {

@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(loom
         main.cpp
-        thread.cpp
-        queue.cpp
-        itc.cpp)
+        loom/thread.cpp
+        loom/queue.cpp
+        loom/itc.cpp)
