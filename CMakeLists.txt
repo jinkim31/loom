@@ -25,3 +25,4 @@ target_link_libraries(test_main_thread PRIVATE loom)
 
 add_executable(test_transmitter_clone_functor tests/transmitter_clone_functor.cpp)
 target_link_libraries(test_transmitter_clone_functor PRIVATE loom)
+

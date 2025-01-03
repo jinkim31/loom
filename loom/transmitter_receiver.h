@@ -40,13 +40,13 @@ public:
     using SharedPtr = std::shared_ptr<Receiver<T>>;
 private:
     void receiveCallback() override;
-    void notifyLink(Transmitter<T>* transmitter);
-    void notifyUnlink(Transmitter<T>* transmitter);
+    void notifyLink(Transmitter<T>* transmitter); // should be called in the main thread
+    void notifyUnlink(Transmitter<T>* transmitter); // should be called in the main thread
     Queue<T> mQueue;
-    std::mutex mMutex;
     std::set<Transmitter<T>*> mLinkedTransmitters;
     std::function<void(const T &)> mCallback;
     friend class Transmitter<T>;
+protected:
 };
 
 template<typename T>
@@ -84,15 +84,12 @@ void Receiver<T>::clear()
 template<typename T>
 void Receiver<T>::notifyLink(Transmitter<T> *transmitter)
 {
-
-    std::unique_lock<std::mutex> lock(mMutex);
     mLinkedTransmitters.insert(transmitter);
 }
 
 template<typename T>
 void Receiver<T>::notifyUnlink(Transmitter<T> *transmitter)
 {
-    std::unique_lock<std::mutex> lock(mMutex);
     mLinkedTransmitters.erase(transmitter);
 }
 
