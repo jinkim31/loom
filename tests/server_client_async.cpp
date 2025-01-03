@@ -7,7 +7,7 @@ class ServerThread : public loom::Thread
 public:
     ServerThread()
     {
-        server = makeServer<int, double>(this, &ServerThread::callback);
+        server = makeServer<int, double>(&ServerThread::callback);
     }
 
     loom::Server<int, double>::SharedPtr server;
@@ -26,7 +26,7 @@ class ClientThread : public loom::Thread
 public:
     ClientThread()
     {
-        client = makeClient<int, double>(this, &ClientThread::callback);
+        client = makeClient<int, double>(&ClientThread::callback);
     }
 
     loom::Client<int, double>::SharedPtr client;

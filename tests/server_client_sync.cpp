@@ -7,7 +7,7 @@ class ServerThread : public loom::Thread
 public:
     ServerThread()
     {
-        server = makeServer<int, double>(this, &ServerThread::callback);
+        server = makeServer<int, double>(&ServerThread::callback);
     }
 
     loom::Server<int, double>::SharedPtr server;

@@ -27,7 +27,7 @@ class ReceiverThread : public loom::Thread
 public:
     ReceiverThread()
     {
-        receiver = makeReceiver<int>(this, &ReceiverThread::callback);
+        receiver = makeReceiver(&ReceiverThread::callback);
     }
 
     loom::Receiver<int>::SharedPtr receiver;
