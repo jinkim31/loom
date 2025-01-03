@@ -1,10 +1,10 @@
 #include <iostream>
 #include "loom/thread.h"
 
-class ProducerThread : public loom::Thread
+class ServerThread : public loom::Thread
 {
 public:
-    ProducerThread()
+    ServerThread()
     {
         transmitter = makeTransmitter<int>();
     }
@@ -19,13 +19,13 @@ private:
     int mCount = 0;
 };
 
-class ConsumerThread : public loom::Thread
+class ClientThread : public loom::Thread
 {
 public:
-    ConsumerThread()
+    ClientThread()
     {
         //receiver = makeReceiver<int>([](const int& data){std::cout<<"received data "<<data<<std::endl;});
-        receiver = makeReceiver<int>(this, &ConsumerThread::callback);
+        receiver = makeReceiver<int>(this, &ClientThread::callback);
     }
     loom::Receiver<int>::SharedPtr receiver;
 private:
@@ -37,8 +37,8 @@ private:
 
 int main()
 {
-    auto producer = ProducerThread();
-    auto consumer = ConsumerThread();
+    auto producer = ServerThread();
+    auto consumer = ClientThread();
     producer.transmitter->link(consumer.receiver);
     producer.start();
     consumer.start();
