@@ -43,8 +43,8 @@ private:
 
 int main()
 {
-    auto transmitterThread = TransmitterThread();
-    auto receiverThread = ReceiverThread();
+    TransmitterThread transmitterThread;
+    ReceiverThread receiverThread;
     transmitterThread.transmitter->link(receiverThread.receiver);
     transmitterThread.start();
     receiverThread.start();

@@ -22,7 +22,7 @@ class ReceiverInterface
 {
 protected:
     virtual void receiveCallback()=0;
-    virtual size_t nAvailable()=0;
+    virtual size_t size()=0;
     friend class Thread;
     friend class LoopingThread;
     friend class ManualThread;
@@ -34,7 +34,8 @@ class Receiver : public ReceiverInterface
 public:
     Receiver(const std::function<void(const T &)> &callback);
     ~Receiver();
-    size_t nAvailable() override;
+    size_t size() override;
+    void clear();
     T receive();
     using SharedPtr = std::shared_ptr<Receiver<T>>;
 private:
@@ -49,15 +50,9 @@ private:
 };
 
 template<typename T>
-T Receiver<T>::receive()
+Receiver<T>::Receiver(const std::function<void(const T &)> &callback)
 {
-    return mQueue.pop();
-}
-
-template<typename T>
-size_t Receiver<T>::nAvailable()
-{
-    return mQueue.len();
+    mCallback = callback;
 }
 
 template<typename T>
@@ -66,6 +61,24 @@ Receiver<T>::~Receiver()
     if(!mLinkedTransmitters.empty())
         std::cerr<<"[ Loom ] Receiver remained linked to Transmitter(s) when it is destructed."
                    " Ensure to unlink using Transmitter->unlink() before destruction."<<std::endl;
+}
+
+template<typename T>
+T Receiver<T>::receive()
+{
+    return mQueue.pop();
+}
+
+template<typename T>
+size_t Receiver<T>::size()
+{
+    return mQueue.size();
+}
+
+template<typename T>
+void Receiver<T>::clear()
+{
+    mQueue.clear();
 }
 
 template<typename T>
@@ -91,18 +104,13 @@ void Receiver<T>::receiveCallback()
     mCallback(mQueue.pop());
 }
 
-template<typename T>
-Receiver<T>::Receiver(const std::function<void(const T &)> &callback)
-{
-    mCallback = callback;
-}
 
 // transmitter
 template<typename T>
 class Transmitter
 {
 public:
-    Transmitter()= default;
+    Transmitter(const std::function<T(const T&)>& cloneFunc);
     ~Transmitter();
     void link(std::shared_ptr<Receiver<T>> receiver);
     void unlink(std::shared_ptr<Receiver<T>> receiver);
@@ -112,7 +120,22 @@ public:
 private:
     std::mutex mMutex;
     std::set<Receiver<T>*> mReceivers;
+    std::function<T(const T &)> mCopyFunc;
 };
+
+template<typename T>
+Transmitter<T>::Transmitter(const std::function<T(const T &)> &cloneFunc)
+{
+    mCopyFunc = cloneFunc;
+}
+
+template<typename T>
+Transmitter<T>::~Transmitter()
+{
+    if(!mReceivers.empty())
+        std::cerr<<"[ Loom ] Transmitter remained linked to Receiver(s) when it is destructed."
+                   " Ensure to unlink using Transmitter->unlink() before destruction."<<std::endl;
+}
 
 template<typename T>
 void Transmitter<T>::link(std::shared_ptr<Receiver<T>> receiver)
@@ -136,16 +159,8 @@ void Transmitter<T>::transmit(const T &data)
     std::unique_lock<std::mutex> lock(mMutex);
     for (const auto& receiver : mReceivers)
     {
-        receiver->mQueue.push(data);
+        receiver->mQueue.push(std::move(mCopyFunc(data)));
     }
-}
-
-template<typename T>
-Transmitter<T>::~Transmitter()
-{
-    if(!mReceivers.empty())
-        std::cerr<<"[ Loom ] Transmitter remained linked to Receiver(s) when it is destructed."
-                   " Ensure to unlink using Transmitter->unlink() before destruction."<<std::endl;
 }
 
 }

@@ -3,26 +3,27 @@
 
 #include <queue>
 #include <shared_mutex>
+#include <iostream>
 
 template<typename T>
 class Queue
 {
 public:
     Queue()= default;
-    void push(const T& data); // the data is passed by reference, pushed by copy
-    T pop();    // the data is moved, move returned
-    T top();    // the data is copied, move returned
-    size_t len();
+    void push(T&& data); // the data is passed using move, pushed by copy. data should be a copied instance
+    T pop();    // the data is moved from std::queue, move returned
+    size_t size();
+    void clear();
 private:
     std::queue<T> mQueue;
     std::shared_mutex mMutex;
 };
 
 template<typename T>
-void Queue<T>::push(const T& data)
+void Queue<T>::push(T&& data)
 {
     std::unique_lock<std::shared_mutex> lock(mMutex);
-    mQueue.push(data); // copy (not move) for thread safety
+    mQueue.push(std::move(data)); // data should be a copy of original
 }
 
 template<typename T>
@@ -35,17 +36,17 @@ T Queue<T>::pop()
 }
 
 template<typename T>
-T Queue<T>::top()
-{
-    std::shared_lock<std::shared_mutex> lock(mMutex);
-    return mQueue.front();
-}
-
-template<typename T>
-size_t Queue<T>::len()
+size_t Queue<T>::size()
 {
     std::shared_lock<std::shared_mutex> lock(mMutex);
     return mQueue.size();
+}
+
+template<typename T>
+void Queue<T>::clear()
+{
+    std::unique_lock<std::shared_mutex> lock(mMutex);
+    while(!mQueue.empty()) mQueue.pop();
 }
 
 #endif

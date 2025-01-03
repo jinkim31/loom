@@ -48,7 +48,7 @@ void loom::LoopingThread::runLoop()
         // receiver callbacks
         for(const auto& receiver : mReceivers)
         {
-            for(int i=0; i<receiver->nAvailable(); i++)
+            for(int i=0; i< receiver->size(); i++)
             {
                 receiver->receiveCallback();
                 if (mEventLoopBreakFlag)
@@ -71,7 +71,7 @@ void loom::ManualThread::step()
     // receiver callbacks
     for(const auto& receiver : mReceivers)
     {
-        for(int i=0; i<receiver->nAvailable(); i++)
+        for(int i=0; i< receiver->size(); i++)
         {
             receiver->receiveCallback();
         }

@@ -76,7 +76,7 @@ template<typename ArgType, typename RetType>
 RetType Client<ArgType, RetType>::requestSync(const ArgType &arg)
 {
     mTransmitter->transmit(arg);
-    while(!mReceiver->nAvailable()); // TODO: use condition variable, add timeout
+    while(!mReceiver->size()); // TODO: use condition variable, add timeout
     return mReceiver->receive();
 }
 

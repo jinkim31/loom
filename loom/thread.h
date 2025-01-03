@@ -21,7 +21,8 @@ protected:
     virtual void loopCallback(){}
 
     template<typename T>
-    typename Transmitter<T>::SharedPtr makeTransmitter();
+    typename Transmitter<T>::SharedPtr makeTransmitter(
+            const std::function<T(const T&)>& cloneFunc=[](const T& original){return T(original);});
 
     template<typename T>
     typename Receiver<T>::SharedPtr makeReceiver(const std::function<void(const T& data)>& callback);
@@ -46,9 +47,9 @@ protected:
 };
 
 template<typename T>
-typename Transmitter<T>::SharedPtr Thread::makeTransmitter()
+typename Transmitter<T>::SharedPtr Thread::makeTransmitter(const std::function<T(const T&)>& cloneFunc)
 {
-    return std::make_shared<Transmitter<T>>();
+    return std::make_shared<Transmitter<T>>(cloneFunc);
 }
 
 template<typename T>

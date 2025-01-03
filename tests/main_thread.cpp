@@ -43,8 +43,8 @@ private:
 
 int main()
 {
-    auto mainThread = MainThread();
-    auto producerThread = ProducerThread();
+    MainThread mainThread;
+    ProducerThread producerThread;
 
     producerThread.transmitter->link(mainThread.receiver);
     producerThread.start();

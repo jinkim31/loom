@@ -48,8 +48,8 @@ private:
 
 int main()
 {
-    auto serverThread = ServerThread();
-    auto clientThread = ClientThread();
+    ServerThread serverThread;
+    ClientThread clientThread;
     serverThread.server->link(clientThread.client);
     serverThread.start();
     clientThread.start();
