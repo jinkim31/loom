@@ -1,5 +1,5 @@
-#ifndef LOOM_ITC_H
-#define LOOM_ITC_H
+#ifndef LOOM_TRANSMITTER_RECEIVER_H
+#define LOOM_TRANSMITTER_RECEIVER_H
 
 #include "queue.h"
 #include <set>
@@ -20,6 +20,7 @@ class ReceiverInterface
 {
 protected:
     virtual void receive()=0;
+    virtual size_t nAvailable()=0;
     friend class Thread;
 };
 
@@ -27,13 +28,18 @@ template<typename T>
 class Receiver : public ReceiverInterface
 {
 public:
-    Receiver(const std::function<void(const T &)> &callback); // lambda version
-    template<typename ThreadObjectType>
-    Receiver(ThreadObjectType* object, void (ThreadObjectType::*callbackPtr)(const T& data)); // member function version
+    Receiver(const std::function<void(const T &)> &callback);
     ~Receiver();
     using SharedPtr = std::shared_ptr<Receiver<T>>;
 private:
     void receive() override;
+protected:
+    size_t nAvailable() override
+    {
+        return mQueue.len();
+    }
+
+private:
     void notifyLink(Transmitter<T>* transmitter);
     void notifyUnlink(Transmitter<T>* transmitter);
     Queue<T> mQueue;
@@ -71,21 +77,13 @@ void Receiver<T>::notifyUnlink(Transmitter<T> *transmitter)
 template<typename T>
 void Receiver<T>::receive()
 {
-    for(int i=0; i<mQueue.len(); i++)
-        mCallback(mQueue.pop());
+    mCallback(mQueue.pop());
 }
 
 template<typename T>
 Receiver<T>::Receiver(const std::function<void(const T &)> &callback)
 {
     mCallback = callback;
-}
-
-template<typename T>
-template<typename ThreadObjectType>
-Receiver<T>::Receiver(ThreadObjectType* object, void (ThreadObjectType::*callbackPtr)(const T& data))
-{
-    mCallback = [=](const T& data){(object->*callbackPtr)(data);};
 }
 
 // transmitter

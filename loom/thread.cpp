@@ -1,9 +1,10 @@
 #include "thread.h"
 
-loom::Thread::Thread()
+loom::Thread::Thread(const std::string &name, const int &loopIntervalMilliseconds)
 {
     mIsThreadRunning = false;
-    mEventLoopDelay = std::chrono::milliseconds(100);
+    mEventLoopDelay = std::chrono::milliseconds(loopIntervalMilliseconds);
+    mName = name;
 }
 
 void loom::Thread::start()
@@ -44,7 +45,15 @@ void loom::Thread::runEventLoop()
 
         // receiver callbacks
         for(const auto& receiver : mReceivers)
-            receiver->receive();
+        {
+            for(int i=0; i<receiver->nAvailable(); i++)
+            {
+                receiver->receive();
+                if (mEventLoopBreakFlag)
+                    return;
+            }
+        }
+
 
         step();
         std::this_thread::sleep_for(mEventLoopDelay);

@@ -4,7 +4,7 @@
 class ServerThread : public loom::Thread
 {
 public:
-    ServerThread()
+    ServerThread() : Thread(<#initializer#>, <#initializer#>), Thread(<#initializer#>, <#initializer#>)
     {
         transmitter = makeTransmitter<int>();
     }
@@ -22,7 +22,7 @@ private:
 class ClientThread : public loom::Thread
 {
 public:
-    ClientThread()
+    ClientThread() : Thread(<#initializer#>, <#initializer#>), Thread(<#initializer#>, <#initializer#>)
     {
         //receiver = makeReceiver<int>([](const int& data){std::cout<<"received data "<<data<<std::endl;});
         receiver = makeReceiver<int>(this, &ClientThread::callback);
