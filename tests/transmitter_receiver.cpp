@@ -1,10 +1,10 @@
 #include <iostream>
 #include "loom/thread.h"
 
-class ProducerThread : public loom::Thread
+class TransmitterThread : public loom::Thread
 {
 public:
-    ProducerThread() : Thread("Producer", 100)
+    TransmitterThread() : Thread("Producer", 100)
     {
         transmitter = makeTransmitter<int>();
     }
@@ -19,13 +19,13 @@ private:
     int mCount = 0;
 };
 
-class ConsumerThread : public loom::Thread
+class ReceiverThread : public loom::Thread
 {
 public:
-    ConsumerThread() : Thread("Consumer", 100)
+    ReceiverThread() : Thread("Consumer", 100)
     {
         //receiver = makeReceiver<int>([](const int& data){std::cout<<"received data "<<data<<std::endl;});
-        receiver = makeReceiver<int>(this, &ConsumerThread::callback);
+        receiver = makeReceiver<int>(this, &ReceiverThread::callback);
     }
     loom::Receiver<int>::SharedPtr receiver;
 private:
@@ -37,13 +37,13 @@ private:
 
 int main()
 {
-    auto producer = ProducerThread();
-    auto consumer = ConsumerThread();
-    producer.transmitter->link(consumer.receiver);
-    producer.start();
-    consumer.start();
+    auto transmitterThread = TransmitterThread();
+    auto receiverThread = ReceiverThread();
+    transmitterThread.transmitter->link(receiverThread.receiver);
+    transmitterThread.start();
+    receiverThread.start();
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    producer.stop();
-    consumer.stop();
-    producer.transmitter->unlink(consumer.receiver);
+    transmitterThread.stop();
+    receiverThread.stop();
+    transmitterThread.transmitter->unlink(receiverThread.receiver);
 }

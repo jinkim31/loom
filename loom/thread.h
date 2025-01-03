@@ -41,7 +41,6 @@ protected:
     template<typename ArgType, typename RetType, typename ThreadObjectType>
     typename Client<ArgType, RetType>::SharedPtr makeClient(ThreadObjectType* object, void (ThreadObjectType::*callbackPtr)(const RetType&));
 
-
     virtual void step(){}
 
 private:

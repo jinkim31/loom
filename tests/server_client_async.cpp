@@ -1,11 +1,11 @@
 #include <iostream>
 #include "loom/thread.h"
-#include "loom/server_client.h"
 
-class ProducerThread : public loom::Thread
+
+class ServerThread : public loom::Thread
 {
 public:
-    ProducerThread() : Thread("Server", 100)
+    ServerThread() : Thread("Server", 100)
     {
         /* lambda version
         server = makeServer<int, double>([](const int& arg){
@@ -14,7 +14,7 @@ public:
             return 3.14 * arg;
         });
          */
-        server = makeServer<int, double>(this, &ProducerThread::callback);
+        server = makeServer<int, double>(this, &ServerThread::callback);
     }
     loom::Server<int, double>::SharedPtr server;
 private:
@@ -24,17 +24,17 @@ private:
     }
 };
 
-class ConsumerThread : public loom::Thread
+class ClientThread : public loom::Thread
 {
 public:
-    ConsumerThread() : Thread("Client", 100)
+    ClientThread() : Thread("Client", 100)
     {
         /* lambda version
         client = makeClient<int, double>([](const double& ret){
             std::cout<<"client received ret: "<<ret<<std::endl;
         });
          */
-        client = makeClient<int, double>(this, &ConsumerThread::callback);
+        client = makeClient<int, double>(this, &ClientThread::callback);
     }
     loom::Client<int, double>::SharedPtr client;
 protected:
@@ -52,8 +52,8 @@ private:
 
 int main()
 {
-    auto serverThread = ProducerThread();
-    auto clientThread = ConsumerThread();
+    auto serverThread = ServerThread();
+    auto clientThread = ClientThread();
     serverThread.server->link(clientThread.client);
     serverThread.start();
     clientThread.start();

@@ -19,7 +19,6 @@ public:
             const typename Receiver<ArgType>::SharedPtr && receiver,
             const typename Transmitter<RetType>::SharedPtr && transmitter)
     {
-
         mReceiver = std::move(receiver);
         mTransmitter = std::move(transmitter);
     }
