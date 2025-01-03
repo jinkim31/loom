@@ -60,7 +60,10 @@ public:
     friend class Server<ArgType, RetType>;
 
     void requestAsync(const ArgType& arg);
-    RetType requestSync(const ArgType& arg);
+
+    std::optional<RetType> requestSync(
+            const ArgType& arg,
+            const std::chrono::high_resolution_clock::duration& timeout=std::chrono::seconds(1));
 private:
     typename Transmitter<ArgType>::SharedPtr mTransmitter;
     typename Receiver<RetType>::SharedPtr mReceiver;
@@ -73,10 +76,18 @@ void Client<ArgType, RetType>::requestAsync(const ArgType &arg)
 }
 
 template<typename ArgType, typename RetType>
-RetType Client<ArgType, RetType>::requestSync(const ArgType &arg)
+std::optional<RetType> Client<ArgType, RetType>::requestSync(
+        const ArgType& arg,
+        const std::chrono::high_resolution_clock::duration& timeout)
 {
     mTransmitter->transmit(arg);
-    while(!mReceiver->size()); // TODO: use condition variable, add timeout
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    while(!mReceiver->size()) // TODO: use condition variable, add timeout
+    {
+        if(startTime + timeout < std::chrono::high_resolution_clock::now())
+            return std::nullopt;
+    }
     return mReceiver->receive();
 }
 

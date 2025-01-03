@@ -1,11 +1,13 @@
 #include "thread.h"
 
-loom::Thread::Thread()
+loom::Thread::Thread(const std::string& name) : name(name)
 {
 
 }
 
-loom::LoopingThread::LoopingThread(const std::chrono::high_resolution_clock::duration loopInterval)
+loom::LoopingThread::LoopingThread(
+        const std::chrono::high_resolution_clock::duration &loopInterval,
+        const std::string &name) : Thread(name)
 {
     mIsThreadRunning = false;
     mLoopInterval = loopInterval;

@@ -20,11 +20,8 @@ T defaultCloneFunctor(const T& original)
 class Thread
 {
 public:
-    Thread();
+    Thread(const std::string& name="thread");
     virtual ~Thread()= default;
-
-protected:
-    virtual void loopCallback(){}
 
     template<typename T>
     typename Transmitter<T>::SharedPtr makeTransmitter(
@@ -48,8 +45,12 @@ protected:
     template<typename ArgType, typename RetType, typename ThreadObjectType>
     typename Client<ArgType, RetType>::SharedPtr makeClient(void (ThreadObjectType::*callbackPtr)(const RetType&));
 
+    const std::string name;
+
+protected:
+    virtual void loopCallback(){}
     std::vector<std::shared_ptr<ReceiverInterface>> mReceivers;
-    std::string mName;
+
 };
 
 template<typename T>
@@ -122,7 +123,9 @@ typename Client<ArgType, RetType>::SharedPtr loom::Thread::makeClient(void (Thre
 class LoopingThread : public Thread
 {
 public:
-    LoopingThread(std::chrono::high_resolution_clock::duration loopInterval=std::chrono::milliseconds(10));
+    LoopingThread(
+            const std::chrono::high_resolution_clock::duration& loopInterval=std::chrono::milliseconds(10),
+            const std::string& name="loopingThread");
     virtual ~LoopingThread()=default;
     void start();
     void stop();

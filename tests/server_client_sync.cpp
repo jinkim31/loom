@@ -34,8 +34,9 @@ public:
 protected:
     void loopCallback() override
     {
-        double ret = client->requestSync(count++);
-        std::cout << "Client received ret " << ret << "." << std::endl;
+        auto ret = client->requestSync(count++);
+        if(ret.has_value())
+            std::cout << "Client received ret " << ret.value() << "." << std::endl;
     }
 
 private:
