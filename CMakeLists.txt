@@ -18,3 +18,6 @@ target_link_libraries(test_server_client_async PRIVATE loom)
 
 add_executable(test_server_client_sync tests/server_client_sync.cpp)
 target_link_libraries(test_server_client_sync PRIVATE loom)
+
+add_executable(test_main_thread tests/main_thread.cpp)
+target_link_libraries(test_main_thread PRIVATE loom)

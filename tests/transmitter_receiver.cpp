@@ -2,7 +2,7 @@
 #include "loom/loom.h"
 
 
-class TransmitterThread : public loom::Thread
+class TransmitterThread : public loom::LoopingThread
 {
 public:
     TransmitterThread()
@@ -13,30 +13,31 @@ public:
     loom::Transmitter<int>::SharedPtr transmitter;
 
 protected:
-    void step() override
+    void loopCallback() override
     {
-        std::cout << "transmitter transmitted : " << mCount << std::endl;
-        transmitter->transmit(mCount++);
+        transmitter->transmit(mCount);
+        std::cout << "Transmitter thread transmitted "<<mCount<<"."<<std::endl;
+        mCount++;
     }
 
 private:
     int mCount = 0;
 };
 
-class ReceiverThread : public loom::Thread
+class ReceiverThread : public loom::LoopingThread
 {
 public:
     ReceiverThread()
     {
-        receiver = makeReceiver(&ReceiverThread::callback);
+        receiver = makeReceiver(&ReceiverThread::receiveCallback);
     }
 
     loom::Receiver<int>::SharedPtr receiver;
 
 private:
-    void callback(const int& data)
+    void receiveCallback(const int& data)
     {
-        std::cout << "receiver received: " << data << std::endl;
+        std::cout<<"Receiver thread received "<<data<<"."<<std::endl;
     }
 };
 

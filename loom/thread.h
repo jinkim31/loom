@@ -14,12 +14,12 @@ namespace loom
 class Thread
 {
 public:
-    Thread(const int &loopIntervalMilliseconds=10, const std::string &name="Unnamed");
+    Thread();
     virtual ~Thread()= default;
-    void start();
-    void stop();
 
 protected:
+    virtual void loopCallback(){}
+
     template<typename T>
     typename Transmitter<T>::SharedPtr makeTransmitter();
 
@@ -41,16 +41,6 @@ protected:
     template<typename ArgType, typename RetType, typename ThreadObjectType>
     typename Client<ArgType, RetType>::SharedPtr makeClient(void (ThreadObjectType::*callbackPtr)(const RetType&));
 
-    virtual void step(){}
-
-private:
-    static void* entryPoint(void *param);
-    void runEventLoop();
-
-    std::chrono::high_resolution_clock::duration mEventLoopDelay;
-    std::mutex mMutex; // mutex for start() stop()
-    std::atomic<bool> mIsThreadRunning, mEventLoopBreakFlag;
-    std::thread mThread;
     std::vector<std::shared_ptr<ReceiverInterface>> mReceivers;
     std::string mName;
 };
@@ -122,7 +112,29 @@ typename Client<ArgType, RetType>::SharedPtr loom::Thread::makeClient(void (Thre
 }
 
 
+class LoopingThread : public Thread
+{
+public:
+    LoopingThread(std::chrono::high_resolution_clock::duration loopInterval=std::chrono::milliseconds(10));
+    virtual ~LoopingThread()=default;
+    void start();
+    void stop();
+private:
+    void runLoop();
+    static void* entryPoint(void *param);
+    std::chrono::high_resolution_clock::duration mLoopInterval;
+    std::atomic<bool> mIsThreadRunning, mEventLoopBreakFlag;
+    std::thread mThread;
+};
 
+class ManualThread : public Thread
+{
+public:
+    ManualThread(std::chrono::high_resolution_clock::duration loopInterval=std::chrono::milliseconds(10));
+    void step();
+private:
+    std::chrono::high_resolution_clock::duration mLoopInterval;
+};
 
 }
 

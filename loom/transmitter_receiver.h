@@ -14,6 +14,8 @@ namespace loom
 template<typename T>
 class Transmitter;
 class Thread;
+class LoopingThread;
+class ManualThread;
 
 // receiver
 class ReceiverInterface
@@ -22,6 +24,8 @@ protected:
     virtual void receiveCallback()=0;
     virtual size_t nAvailable()=0;
     friend class Thread;
+    friend class LoopingThread;
+    friend class ManualThread;
 };
 
 template<typename T>

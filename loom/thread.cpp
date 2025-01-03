@@ -1,25 +1,27 @@
 #include "thread.h"
 
-loom::Thread::Thread(const int &loopIntervalMilliseconds, const std::string &name)
+loom::Thread::Thread()
 {
-    mIsThreadRunning = false;
-    mEventLoopDelay = std::chrono::milliseconds(loopIntervalMilliseconds);
-    mName = name;
+
 }
 
-void loom::Thread::start()
+loom::LoopingThread::LoopingThread(const std::chrono::high_resolution_clock::duration loopInterval)
 {
-    std::unique_lock<std::mutex> lock(mMutex);
+    mIsThreadRunning = false;
+    mLoopInterval = loopInterval;
+}
+
+void loom::LoopingThread::start()
+{
     if(mIsThreadRunning)
         return;
-    mThread = std::thread(Thread::entryPoint, this);
+    mThread = std::thread(LoopingThread::entryPoint, this);
     mIsThreadRunning = true;
     mEventLoopBreakFlag = false;
 }
 
-void loom::Thread::stop()
+void loom::LoopingThread::stop()
 {
-    std::unique_lock<std::mutex> lock(mMutex);
     if(!mIsThreadRunning)
         return;
     mEventLoopBreakFlag = true;
@@ -28,14 +30,14 @@ void loom::Thread::stop()
     mIsThreadRunning = false;
 }
 
-void *loom::Thread::entryPoint(void *param)
+void *loom::LoopingThread::entryPoint(void *param)
 {
-    auto* ethreadPtr = (Thread*)param;
-    ethreadPtr->runEventLoop();
+    auto* ethreadPtr = (LoopingThread*)param;
+    ethreadPtr->runLoop();
     return nullptr;
 }
 
-void loom::Thread::runEventLoop()
+void loom::LoopingThread::runLoop()
 {
     while(true)
     {
@@ -54,7 +56,27 @@ void loom::Thread::runEventLoop()
             }
         }
 
-        step();
-        std::this_thread::sleep_for(mEventLoopDelay);
+        loopCallback();
+        std::this_thread::sleep_for(mLoopInterval);
     }
+}
+
+loom::ManualThread::ManualThread(std::chrono::high_resolution_clock::duration loopInterval)
+{
+    mLoopInterval = loopInterval;
+}
+
+void loom::ManualThread::step()
+{
+    // receiver callbacks
+    for(const auto& receiver : mReceivers)
+    {
+        for(int i=0; i<receiver->nAvailable(); i++)
+        {
+            receiver->receiveCallback();
+        }
+    }
+
+    loopCallback();
+    std::this_thread::sleep_for(mLoopInterval);
 }
