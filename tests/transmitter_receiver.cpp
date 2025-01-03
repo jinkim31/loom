@@ -4,17 +4,20 @@
 class TransmitterThread : public loom::Thread
 {
 public:
-    TransmitterThread() : Thread("Producer", 100)
+    TransmitterThread()
     {
         transmitter = makeTransmitter<int>();
     }
+
     loom::Transmitter<int>::SharedPtr transmitter;
+
 protected:
     void step() override
     {
         std::cout<<"produce: "<<mCount<<std::endl;
         transmitter->transmit(mCount++);
     }
+
 private:
     int mCount = 0;
 };
@@ -22,12 +25,13 @@ private:
 class ReceiverThread : public loom::Thread
 {
 public:
-    ReceiverThread() : Thread("Consumer", 100)
+    ReceiverThread()
     {
-        //receiver = makeReceiver<int>([](const int& data){std::cout<<"received data "<<data<<std::endl;});
         receiver = makeReceiver<int>(this, &ReceiverThread::callback);
     }
+
     loom::Receiver<int>::SharedPtr receiver;
+
 private:
     void callback(const int& data)
     {

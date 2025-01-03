@@ -14,7 +14,7 @@ namespace loom
 class Thread
 {
 public:
-    Thread(const std::string &name, const int &loopIntervalMilliseconds);
+    Thread(const int &loopIntervalMilliseconds=10, const std::string &name="Unnamed");
     virtual ~Thread()= default;
     void start();
     void stop();

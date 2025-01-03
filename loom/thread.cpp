@@ -1,6 +1,6 @@
 #include "thread.h"
 
-loom::Thread::Thread(const std::string &name, const int &loopIntervalMilliseconds)
+loom::Thread::Thread(const int &loopIntervalMilliseconds, const std::string &name)
 {
     mIsThreadRunning = false;
     mEventLoopDelay = std::chrono::milliseconds(loopIntervalMilliseconds);
@@ -53,7 +53,6 @@ void loom::Thread::runEventLoop()
                     return;
             }
         }
-
 
         step();
         std::this_thread::sleep_for(mEventLoopDelay);

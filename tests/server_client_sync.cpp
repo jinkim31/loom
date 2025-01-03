@@ -5,32 +5,38 @@
 class ServerThread : public loom::Thread
 {
 public:
-    ServerThread() : Thread("Server", 10)
+    ServerThread()
     {
-        server = makeServer<int, double>([](const int& arg){
-            std::cout<<"server received arg "<<arg<<std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-            return 3.14 * arg;
-        });
+        server = makeServer<int, double>(this, &ServerThread::callback);
     }
-    loom::Server<int, double>::SharedPtr server;
-private:
 
+    loom::Server<int, double>::SharedPtr server;
+
+private:
+    double callback(const int& arg)
+    {
+        std::cout<<"server received arg "<<arg<<std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        return 3.14 * arg;
+    }
 };
 
 class ClientThread : public loom::Thread
 {
 public:
-    ClientThread() : Thread("Client", 10)
+    ClientThread()
     {
         client = makeClient<int, double>();
     }
+
     loom::Client<int, double>::SharedPtr client;
+
 protected:
     void step() override
     {
         std::cout<<client->requestSync(count++)<<std::endl;
     }
+
 private:
     int count = 0;
 };
