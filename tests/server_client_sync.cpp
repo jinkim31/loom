@@ -1,6 +1,6 @@
 #include <iostream>
-#include "loom/thread.h"
-#include "loom/server_client.h"
+#include "loom/loom.h"
+
 
 class ServerThread : public loom::Thread
 {
@@ -15,7 +15,7 @@ public:
 private:
     double callback(const int& arg)
     {
-        std::cout<<"server received arg "<<arg<<std::endl;
+        std::cout << "server received arg: " << arg << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         return 3.14 * arg;
     }
@@ -34,7 +34,8 @@ public:
 protected:
     void step() override
     {
-        std::cout<<client->requestSync(count++)<<std::endl;
+        double ret = client->requestSync(count++);
+        std::cout << "client received ret: " << ret << std::endl;
     }
 
 private:

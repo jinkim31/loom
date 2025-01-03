@@ -1,5 +1,6 @@
 #include <iostream>
-#include "loom/thread.h"
+#include "loom/loom.h"
+
 
 class TransmitterThread : public loom::Thread
 {
@@ -14,7 +15,7 @@ public:
 protected:
     void step() override
     {
-        std::cout<<"produce: "<<mCount<<std::endl;
+        std::cout << "transmitter transmitted : " << mCount << std::endl;
         transmitter->transmit(mCount++);
     }
 
@@ -35,7 +36,7 @@ public:
 private:
     void callback(const int& data)
     {
-        std::cout<<"consume: "<<data<<std::endl;
+        std::cout << "receiver received: " << data << std::endl;
     }
 };
 
