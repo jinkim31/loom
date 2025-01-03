@@ -110,7 +110,7 @@ template<typename T>
 class Transmitter
 {
 public:
-    Transmitter(const std::function<T(const T&)>& cloneFunc);
+    Transmitter(const std::function<T(const T&)>& cloneFunctor);
     ~Transmitter();
     void link(std::shared_ptr<Receiver<T>> receiver);
     void unlink(std::shared_ptr<Receiver<T>> receiver);
@@ -124,9 +124,9 @@ private:
 };
 
 template<typename T>
-Transmitter<T>::Transmitter(const std::function<T(const T &)> &cloneFunc)
+Transmitter<T>::Transmitter(const std::function<T(const T &)> &cloneFunctor)
 {
-    mCopyFunc = cloneFunc;
+    mCopyFunc = cloneFunctor;
 }
 
 template<typename T>

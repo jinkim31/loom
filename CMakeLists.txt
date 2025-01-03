@@ -8,6 +8,7 @@ add_library(loom
         loom/queue.cpp
         loom/transmitter_receiver.cpp
         loom/server_client.cpp)
+
 target_include_directories(loom PUBLIC .)
 
 add_executable(test_transmitter_receiver tests/transmitter_receiver.cpp)
@@ -22,5 +23,5 @@ target_link_libraries(test_server_client_sync PRIVATE loom)
 add_executable(test_main_thread tests/main_thread.cpp)
 target_link_libraries(test_main_thread PRIVATE loom)
 
-add_executable(test_transmitter_copy_func tests/transmitter_copy_func.cpp)
-target_link_libraries(test_transmitter_copy_func PRIVATE loom)
+add_executable(test_transmitter_clone_functor tests/transmitter_clone_functor.cpp)
+target_link_libraries(test_transmitter_clone_functor PRIVATE loom)

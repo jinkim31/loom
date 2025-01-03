@@ -11,6 +11,12 @@
 namespace loom
 {
 
+template<typename T>
+T defaultCloneFunctor(const T& original)
+{
+    return T(original);
+}
+
 class Thread
 {
 public:
@@ -22,7 +28,7 @@ protected:
 
     template<typename T>
     typename Transmitter<T>::SharedPtr makeTransmitter(
-            const std::function<T(const T&)>& cloneFunc=[](const T& original){return T(original);});
+            const std::function<T(const T&)>& cloneFunctor=defaultCloneFunctor<T>);
 
     template<typename T>
     typename Receiver<T>::SharedPtr makeReceiver(const std::function<void(const T& data)>& callback);
@@ -47,9 +53,9 @@ protected:
 };
 
 template<typename T>
-typename Transmitter<T>::SharedPtr Thread::makeTransmitter(const std::function<T(const T&)>& cloneFunc)
+typename Transmitter<T>::SharedPtr Thread::makeTransmitter(const std::function<T(const T&)>& cloneFunctor)
 {
-    return std::make_shared<Transmitter<T>>(cloneFunc);
+    return std::make_shared<Transmitter<T>>(cloneFunctor);
 }
 
 template<typename T>
