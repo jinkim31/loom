@@ -61,22 +61,24 @@ public:
     friend class Server<ArgType, RetType>;
 
     void requestAsync(const ArgType& arg);
-    void requestSync(const ArgType& arg);
+    RetType requestSync(const ArgType& arg);
 private:
     typename Transmitter<ArgType>::SharedPtr mTransmitter;
     typename Receiver<RetType>::SharedPtr mReceiver;
 };
 
 template<typename ArgType, typename RetType>
-void Client<ArgType, RetType>::requestSync(const ArgType &arg)
-{
-
-}
-
-template<typename ArgType, typename RetType>
 void Client<ArgType, RetType>::requestAsync(const ArgType &arg)
 {
     mTransmitter->transmit(arg);
+}
+
+template<typename ArgType, typename RetType>
+RetType Client<ArgType, RetType>::requestSync(const ArgType &arg)
+{
+    mTransmitter->transmit(arg);
+    while(!mReceiver->nAvailable()); // TODO: use condition variable
+    return mReceiver->receive();
 }
 
 }

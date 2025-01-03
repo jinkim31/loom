@@ -48,7 +48,7 @@ void loom::Thread::runEventLoop()
         {
             for(int i=0; i<receiver->nAvailable(); i++)
             {
-                receiver->receive();
+                receiver->receiveCallback();
                 if (mEventLoopBreakFlag)
                     return;
             }

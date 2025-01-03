@@ -33,7 +33,7 @@ protected:
     typename Server<ArgType, RetType>::SharedPtr makeServer(const std::function<RetType(const ArgType&)>& callback);
 
     template<typename ArgType, typename RetType>
-    typename Client<ArgType, RetType>::SharedPtr makeClient(const std::function<void (const RetType&)>& callback);
+    typename Client<ArgType, RetType>::SharedPtr makeClient(const std::function<void (const RetType&)>& callback=[](const RetType&){});
 
 
     virtual void step(){}

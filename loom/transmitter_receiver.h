@@ -19,7 +19,7 @@ class Thread;
 class ReceiverInterface
 {
 protected:
-    virtual void receive()=0;
+    virtual void receiveCallback()=0;
     virtual size_t nAvailable()=0;
     friend class Thread;
 };
@@ -30,16 +30,11 @@ class Receiver : public ReceiverInterface
 public:
     Receiver(const std::function<void(const T &)> &callback);
     ~Receiver();
+    size_t nAvailable() override;
+    T receive();
     using SharedPtr = std::shared_ptr<Receiver<T>>;
 private:
-    void receive() override;
-protected:
-    size_t nAvailable() override
-    {
-        return mQueue.len();
-    }
-
-private:
+    void receiveCallback() override;
     void notifyLink(Transmitter<T>* transmitter);
     void notifyUnlink(Transmitter<T>* transmitter);
     Queue<T> mQueue;
@@ -48,6 +43,18 @@ private:
     std::function<void(const T &)> mCallback;
     friend class Transmitter<T>;
 };
+
+template<typename T>
+T Receiver<T>::receive()
+{
+    return mQueue.pop();
+}
+
+template<typename T>
+size_t Receiver<T>::nAvailable()
+{
+    return mQueue.len();
+}
 
 template<typename T>
 Receiver<T>::~Receiver()
@@ -75,7 +82,7 @@ void Receiver<T>::notifyUnlink(Transmitter<T> *transmitter)
 
 
 template<typename T>
-void Receiver<T>::receive()
+void Receiver<T>::receiveCallback()
 {
     mCallback(mQueue.pop());
 }

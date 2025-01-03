@@ -2,10 +2,10 @@
 #include "loom/thread.h"
 #include "loom/server_client.h"
 
-class ServerThread : public loom::Thread
+class ProducerThread : public loom::Thread
 {
 public:
-    ServerThread() : Thread("Server", 100)
+    ProducerThread() : Thread("Server", 100)
     {
         server = makeServer<int, double>([](const int& arg){
             std::cout<<"server received arg "<<arg<<std::endl;
@@ -18,10 +18,10 @@ private:
 
 };
 
-class ClientThread : public loom::Thread
+class ConsumerThread : public loom::Thread
 {
 public:
-    ClientThread() : Thread("Client", 100)
+    ConsumerThread() : Thread("Client", 100)
     {
         client = makeClient<int, double>([](const double& ret){
             std::cout<<"client received ret: "<<ret<<std::endl;
@@ -31,14 +31,16 @@ public:
 protected:
     void step() override
     {
-        client->requestAsync(1);
+        client->requestAsync(count++);
     }
+private:
+    int count = 0;
 };
 
 int main()
 {
-    auto serverThread = ServerThread();
-    auto clientThread = ClientThread();
+    auto serverThread = ProducerThread();
+    auto clientThread = ConsumerThread();
     serverThread.server->link(clientThread.client);
     serverThread.start();
     clientThread.start();
