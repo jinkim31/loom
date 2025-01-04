@@ -59,8 +59,6 @@ void ImageView(char* name, cv::Mat mat, ImmVision::ImageParams& param, bool home
 
 bool Combo(const char* label, int* index, const std::vector<std::string>& items);
 
-void SiglotConnectionGraphView();
-
 enum LEDColor
 {
     RED,
@@ -68,6 +66,7 @@ enum LEDColor
     YELLOW,
     OFF,
 };
+
 void LED(inkjet::LEDColor ledColor, const ImVec2 &size);
 
 bool ButtonText(const char* text, const ImVec2& size);
