@@ -3,6 +3,8 @@ project(loom)
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_subdirectory(external/imgui_bundle)
+
 add_library(loom
         loom/threading/thread.cpp
         loom/threading/queue.cpp
@@ -29,3 +31,6 @@ target_link_libraries(test_threading_transmitter_clone_functor PRIVATE loom)
 
 add_executable(test_state_machine_threaded_state_machine tests/state_machine/threaded_state_machine.cpp)
 target_link_libraries(test_state_machine_threaded_state_machine PRIVATE loom)
+
+imgui_bundle_add_app(test_ui_imgui_demo tests/ui/imgui_demo.cpp)
+target_link_libraries(test_ui_imgui_demo PRIVATE loom)
