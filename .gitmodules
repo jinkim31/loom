@@ -4,3 +4,6 @@
 [submodule "external/IconFontCppHeaders"]
 	path = external/IconFontCppHeaders
 	url = https://github.com/juliettef/IconFontCppHeaders.git
+[submodule "external/poco"]
+	path = external/poco
+	url = https://github.com/pocoproject/poco.git

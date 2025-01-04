@@ -24,13 +24,6 @@ class Application : public loom::ManualThread
 public:
     Application()
     {
-        // threading
-        mClient = makeClient<loom::Empty, int>([&](const int& number){
-            mNumber = number; // callback for async request
-        });
-        mServerThread.start();
-        mServerThread.server->link(mClient);
-
         HelloImGui::RunnerParams runnerParams;
         runnerParams.callbacks.SetupImGuiStyle = inkjet::setStyle;
         runnerParams.callbacks.ShowGui = [&]{
@@ -41,16 +34,24 @@ public:
             mServerThread.stop();
             mServerThread.server->unlink(mClient);
         };
+
+        runnerParams.callbacks.LoadAdditionalFonts = inkjet::loadFont;
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
-        runnerParams.callbacks.LoadAdditionalFonts = inkjet::initFont;
         runnerParams.imGuiWindowParams.enableViewports = false;
         runnerParams.fpsIdling.enableIdling = false;
         runnerParams.appWindowParams.windowTitle = "inkjet";
         ImmApp::AddOnsParams addOnsParams;
         addOnsParams.withMarkdown = true;
         addOnsParams.withImplot = true;
-        ImmApp::Run(runnerParams, addOnsParams);
 
+        // threading
+        mClient = makeClient<loom::Empty, int>([&](const int& number){
+            mNumber = number; // callback for async request
+        });
+        mServerThread.start();
+        mServerThread.server->link(mClient);
+
+        ImmApp::Run(runnerParams, addOnsParams);
     }
     ~Application()=default;
 
@@ -81,8 +82,6 @@ private:
     ServerThread mServerThread;
     loom::Client<loom::Empty, int>::SharedPtr mClient;
     int mNumber = 0;
-
-
 };
 
 int main(int , char *[])

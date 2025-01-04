@@ -6,10 +6,8 @@
 #include <immapp/immapp.h>
 #include <imgui_internal.h>
 #include <implot/implot.h>
-#include "immapp/immapp.h"
-#include "implot/implot.h"
 #include <unordered_map>
-#include "../..//external/IconFontCppHeaders/IconsMaterialDesign.h"
+#include "../../external/IconFontCppHeaders/IconsMaterialDesign.h"
 
 
 
@@ -47,6 +45,21 @@ Begin(const char *name, bool *open = NULL, bool usePadding = true, const std::fu
 void End();
 
 void initFont();
+
+void loadFont()
+{
+    float fontSize = 16.0f;
+
+    HelloImGui::FontLoadingParams mainFontLoadingParams;
+    mainFontLoadingParams.useFullGlyphRange = true;
+    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , fontSize, mainFontLoadingParams);
+
+    HelloImGui::FontLoadingParams iconFontLoadingParams;
+    iconFontLoadingParams.mergeToLastFont = true;
+    iconFontLoadingParams.useFullGlyphRange = true;
+    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
+    HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
+}
 
 bool InputText(const char *label, const char *hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags = 0);
 

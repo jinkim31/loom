@@ -1,4 +1,5 @@
 #include "inkjet.h"
+#include <thread>
 
 void loom::ui::inkjet::BeginMainWindow()
 {
@@ -243,14 +244,17 @@ void loom::ui::inkjet::End()
 
 void loom::ui::inkjet::initFont()
 {
+    float fontSize = 16.0f;
+
     HelloImGui::FontLoadingParams mainFontLoadingParams;
     mainFontLoadingParams.useFullGlyphRange = true;
-    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , 16.0f, mainFontLoadingParams);
+    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , fontSize, mainFontLoadingParams);
+
     HelloImGui::FontLoadingParams iconFontLoadingParams;
     iconFontLoadingParams.mergeToLastFont = true;
     iconFontLoadingParams.useFullGlyphRange = true;
     iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
-    HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , 16.0f, iconFontLoadingParams);
+    HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
 }
 
 bool loom::ui::inkjet::InputText(const char *label, const char* hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags)

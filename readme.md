@@ -1,4 +1,4 @@
-# Loom: a Multithreading Framework
+# Loom: a Multithreaded Application Framework
 
 # TODO:
 - thread loop timing

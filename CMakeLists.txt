@@ -4,6 +4,7 @@ project(loom)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(external/imgui_bundle)
+add_subdirectory(external/poco)
 
 add_library(loom
         loom/threading/thread.cpp
@@ -11,9 +12,10 @@ add_library(loom
         loom/threading/transmitter_receiver.cpp
         loom/threading/server_client.cpp
         loom/state_machine/state_machine.cpp
-        loom/ui/inkjet.cpp)
+        loom/ui/inkjet.cpp
+        loom/comm/udp_client.cpp)
 
-target_link_libraries(loom imgui_bundle)
+target_link_libraries(loom PRIVATE Poco::Net PUBLIC imgui_bundle)
 target_include_directories(loom PUBLIC .)
 
 add_executable(loom_example_threading_transmitter_receiver examples/threading/transmitter_receiver.cpp)
