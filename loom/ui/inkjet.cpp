@@ -121,6 +121,8 @@ void inkjet::setStyle()
     colors[ImGuiCol_NavWindowingHighlight]  = ImVec4(0.70f, 0.70f, 0.70f, 0.70f);
     colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.20f, 0.20f, 0.20f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
+    colors[ImGuiCol_TabSelectedOverline]    = highlight;
+    colors[ImGuiCol_TabSelected]            = colorRGB(232, 234, 240);
 
     style->WindowMenuButtonPosition = ImGuiDir_Right;
     style->WindowPadding = {12, 12};
@@ -135,6 +137,9 @@ void inkjet::setStyle()
     style->ChildRounding = 0.0;
     style->WindowMinSize = {100, 100};
     style->FrameRounding = 0;
+    style->FrameBorderSize = 0;
+    style->TabBarBorderSize = 0;
+    style->TabBarOverlineSize = 2;
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = white;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = colorRGBA(0,0,0,0);
@@ -149,6 +154,7 @@ bool inkjet::TransparentButton(const char* name, const ImVec2& size)
     ImGui::PopStyleColor();
     return ret;
 }
+
 bool inkjet::Begin(const char* name, bool* open, bool usePadding, const std::function<void(void)>& ShowMenu)
 {
     // returns true if focused
@@ -236,31 +242,13 @@ void inkjet::End()
 
 void inkjet::initFont()
 {
-    auto& io = ImGui::GetIO();
-
-    /*
-    // main font
-    std::cout<<"scale:" <<io.DisplayFramebufferScale.y<<std::endl;
-    float baseFontSize = 16.0f * io.DisplayFramebufferScale.x;
-    fonts.insert({"body", io.Fonts->AddFontFromFileTTF("../Resources/""assets/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf", baseFontSize, NULL, io.Fonts->GetGlyphRangesDefault())});
-
-    // icon font
-    float iconFontSize = baseFontSize * 1.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
-    static const ImWchar icons_ranges[] = { ICON_MIN_MD, ICON_MAX_16_MD, 0 };
-    ImFontConfig icons_config;
-    icons_config.MergeMode = true;
-    icons_config.PixelSnapH = true;
-    icons_config.GlyphMinAdvanceX = iconFontSize;
-    icons_config.GlyphOffset = {0, 4* io.DisplayFramebufferScale.x};
-    io.Fonts->AddFontFromFileTTF("../Resources/""assets/fonts/MaterialIcons-Regular.ttf", iconFontSize, &icons_config, icons_ranges );
-     */
     HelloImGui::FontLoadingParams mainFontLoadingParams;
     mainFontLoadingParams.useFullGlyphRange = true;
     HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , 16.0f, mainFontLoadingParams);
     HelloImGui::FontLoadingParams iconFontLoadingParams;
     iconFontLoadingParams.mergeToLastFont = true;
     iconFontLoadingParams.useFullGlyphRange = true;
-    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4};
+    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
     HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , 16.0f, iconFontLoadingParams);
 }
 

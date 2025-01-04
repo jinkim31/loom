@@ -77,6 +77,7 @@ public:
         ImGui::PopStyleColor();
         inkjet::End();
 
+        ImGui::ShowDemoWindow();
         // end main
         inkjet::EndMainWindow();
     }
