@@ -12,21 +12,20 @@ add_library(loom
 
 target_include_directories(loom PUBLIC .)
 
-add_executable(test_transmitter_receiver tests/transmitter_receiver.cpp)
-target_link_libraries(test_transmitter_receiver PRIVATE loom)
+add_executable(test_threading_transmitter_receiver tests/threading/transmitter_receiver.cpp)
+target_link_libraries(test_threading_transmitter_receiver PRIVATE loom)
 
-add_executable(test_server_client_async tests/server_client_async.cpp)
-target_link_libraries(test_server_client_async PRIVATE loom)
+add_executable(test_threading_server_client_async tests/threading/server_client_async.cpp)
+target_link_libraries(test_threading_server_client_async PRIVATE loom)
 
-add_executable(test_server_client_sync tests/server_client_sync.cpp)
-target_link_libraries(test_server_client_sync PRIVATE loom)
+add_executable(test_threading_server_client_sync tests/threading/server_client_sync.cpp)
+target_link_libraries(test_threading_server_client_sync PRIVATE loom)
 
-add_executable(test_main_thread tests/main_thread.cpp)
-target_link_libraries(test_main_thread PRIVATE loom)
+add_executable(test_threading_main_thread tests/threading/main_thread.cpp)
+target_link_libraries(test_threading_main_thread PRIVATE loom)
 
-add_executable(test_transmitter_clone_functor tests/transmitter_clone_functor.cpp)
-target_link_libraries(test_transmitter_clone_functor PRIVATE loom)
+add_executable(test_threading_transmitter_clone_functor tests/threading/transmitter_clone_functor.cpp)
+target_link_libraries(test_threading_transmitter_clone_functor PRIVATE loom)
 
-add_executable(test_state_machine tests/state_machine.cpp)
-target_link_libraries(test_state_machine PRIVATE loom)
-
+add_executable(test_state_machine_threaded_state_machine tests/state_machine/threaded_state_machine.cpp)
+target_link_libraries(test_state_machine_threaded_state_machine PRIVATE loom)

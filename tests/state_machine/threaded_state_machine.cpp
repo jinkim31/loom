@@ -45,7 +45,7 @@ private:
 class TransitionThread : public loom::LoopingThread
 {
 public:
-    TransitionThread(Event event, std::string name) : loom::LoopingThread(std::chrono::milliseconds(100), name)
+    TransitionThread(Event event, const std::string& name) : loom::LoopingThread(std::chrono::milliseconds(100), name)
     {
         mEvent = event;
         transitionClient = makeClient<Event, std::pair<State, State>>();
