@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace loom::ui;
+using namespace loom;
 
 class ServerThread : public loom::LoopingThread
 {
@@ -25,7 +25,7 @@ public:
     Application()
     {
         HelloImGui::RunnerParams runnerParams;
-        runnerParams.callbacks.SetupImGuiStyle = inkjet::setStyle;
+        runnerParams.callbacks.SetupImGuiStyle = ui::setStyle;
         runnerParams.callbacks.ShowGui = [&]{
             step();
             render();
@@ -35,11 +35,11 @@ public:
             mServerThread.server->unlink(mClient);
         };
 
-        runnerParams.callbacks.LoadAdditionalFonts = inkjet::loadFont;
+        runnerParams.callbacks.LoadAdditionalFonts = ui::loadFont;
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
         runnerParams.imGuiWindowParams.enableViewports = false;
         runnerParams.fpsIdling.enableIdling = false;
-        runnerParams.appWindowParams.windowTitle = "inkjet";
+        runnerParams.appWindowParams.windowTitle = "ui";
         ImmApp::AddOnsParams addOnsParams;
         addOnsParams.withMarkdown = true;
         addOnsParams.withImplot = true;
@@ -57,12 +57,12 @@ public:
 
     void render()
     {
-        inkjet::BeginMainWindow();
+        ui::BeginMainWindow();
 
-        inkjet::DockSpace(false);
+        ui::DockSpace(false);
 
 
-        inkjet::Begin(ICON_MD_TERMINAL" Client");
+        ui::Begin(ICON_MD_TERMINAL" Client");
         if(ImGui::Button("Request a random number async (takes 0.5 sec)"))
         {
             mClient->requestAsync(loom::Empty::empty);
@@ -74,9 +74,9 @@ public:
                 mNumber = ret.value();
         }
         ImGui::Text("%s", std::to_string(mNumber).c_str());
-        inkjet::End();
+        ui::End();
 
-        inkjet::EndMainWindow();
+        ui::EndMainWindow();
     }
 private:
     ServerThread mServerThread;

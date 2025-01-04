@@ -12,7 +12,7 @@ add_library(loom
         loom/threading/transmitter_receiver.cpp
         loom/threading/server_client.cpp
         loom/state_machine/state_machine.cpp
-        loom/ui/inkjet.cpp
+        loom/ui/ui.cpp
         loom/comm/udp_client.cpp)
 
 target_link_libraries(loom PRIVATE Poco::Net PUBLIC imgui_bundle)
@@ -39,8 +39,8 @@ target_link_libraries(loom_example_state_machine_threaded_state_machine PRIVATE 
 imgui_bundle_add_app(loom_example_ui_imgui_demo examples/ui/imgui_demo.cpp)
 target_link_libraries(loom_example_ui_imgui_demo PRIVATE loom)
 
-imgui_bundle_add_app(loom_example_ui_inkjet examples/ui/inkjet.cpp)
-target_link_libraries(loom_example_ui_inkjet PRIVATE loom)
+imgui_bundle_add_app(loom_example_ui_ui examples/ui/ui.cpp)
+target_link_libraries(loom_example_ui_ui PRIVATE loom)
 
-imgui_bundle_add_app(loom_example_ui_inkjet_threaded examples/ui/inkjet_threaded.cpp)
-target_link_libraries(loom_example_ui_inkjet_threaded PRIVATE loom)
+imgui_bundle_add_app(loom_example_ui_ui_threaded examples/ui/ui_threaded.cpp)
+target_link_libraries(loom_example_ui_ui_threaded PRIVATE loom)

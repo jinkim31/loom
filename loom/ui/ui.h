@@ -11,7 +11,7 @@
 
 
 
-namespace loom::ui::inkjet
+namespace loom::ui
 {
 
 static ImVec4 colorRGB(uint8_t r, uint8_t g, uint8_t b)
@@ -85,7 +85,7 @@ enum LEDColor
     OFF,
 };
 
-void LED(inkjet::LEDColor ledColor, const ImVec2 &size);
+void LED(LEDColor ledColor, const ImVec2 &size);
 
 bool ButtonText(const char *text, const ImVec2 &size);
 

@@ -1,6 +1,6 @@
 #include <loom/loom.h>
 
-using namespace loom::ui;
+using namespace loom;
 
 class Application
 {
@@ -8,14 +8,14 @@ public:
     Application()
     {
         HelloImGui::RunnerParams runnerParams;
-        runnerParams.callbacks.SetupImGuiStyle = inkjet::setStyle;
+        runnerParams.callbacks.SetupImGuiStyle = ui::setStyle;
         runnerParams.callbacks.ShowGui = [&]{render();};
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
-        runnerParams.callbacks.LoadAdditionalFonts = inkjet::loadFont;
+        runnerParams.callbacks.LoadAdditionalFonts = ui::loadFont;
         runnerParams.imGuiWindowParams.enableViewports = false;
         runnerParams.fpsIdling.enableIdling = false;
-        runnerParams.appWindowParams.windowTitle = "inkjet";
+        runnerParams.appWindowParams.windowTitle = "ui";
         ImmApp::AddOnsParams addOnsParams;
         addOnsParams.withMarkdown = true;
         addOnsParams.withImplot = true;
@@ -27,10 +27,10 @@ public:
     void render()
     {
         // begin main
-        inkjet::BeginMainWindow();
+        ui::BeginMainWindow();
 
         // menu bar
-        inkjet::WidgetMenuBar([]{
+        ui::WidgetMenuBar([]{
             if (ImGui::BeginMenu("File")) {
                 if (ImGui::MenuItem("Create")) {
                 }
@@ -51,36 +51,36 @@ public:
                 ImGui::EndMenu();
             }
         }, []{
-            ImGui::PushStyleColor(ImGuiCol_Text, inkjet::colorRGB(76, 175, 80));
-            inkjet::TransparentButton(ICON_MD_PLAY_ARROW"##UtilityButton"); ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_Text, ui::colorRGB(76, 175, 80));
+            ui::TransparentButton(ICON_MD_PLAY_ARROW"##UtilityButton"); ImGui::SameLine();
             ImGui::PopStyleColor();
             char buffer[100] = "";
-            inkjet::InputText("##UtillityText", "Utility Text", buffer, 100); ImGui::SameLine();
+            ui::InputText("##UtillityText", "Utility Text", buffer, 100); ImGui::SameLine();
         });
 
         // dockspace
-        inkjet::DockSpace();
+        ui::DockSpace();
 
         // status bar
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0, 0});
-        inkjet::HLine();
+        ui::HLine();
         ImGui::BeginChild("StatusBarChild");
-        inkjet::TransparentButton("Status Bar Button");
+        ui::TransparentButton("Status Bar Button");
         ImGui::EndChild();
         ImGui::PopStyleVar();
 
-        inkjet::Begin(ICON_MD_TERMINAL" Terminal");
-        inkjet::End();
+        ui::Begin(ICON_MD_TERMINAL" Terminal");
+        ui::End();
 
-        inkjet::Begin(ICON_MD_BAR_CHART" Plot");
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, inkjet::white);
+        ui::Begin(ICON_MD_BAR_CHART" Plot");
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::white);
         if(ImPlot::BeginPlot("Plot", ImGui::GetContentRegionAvail()))
             ImPlot::EndPlot();
         ImGui::PopStyleColor();
-        inkjet::End();
+        ui::End();
 
         // end main
-        inkjet::EndMainWindow();
+        ui::EndMainWindow();
     }
 private:
 

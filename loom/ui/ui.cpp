@@ -1,7 +1,7 @@
-#include "inkjet.h"
+#include "ui.h"
 #include <thread>
 
-void loom::ui::inkjet::BeginMainWindow()
+void loom::ui::BeginMainWindow()
 {
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -17,12 +17,12 @@ void loom::ui::inkjet::BeginMainWindow()
     ImGui::PopStyleVar(2);
 }
 
-void loom::ui::inkjet::EndMainWindow()
+void loom::ui::EndMainWindow()
 {
     ImGui::End();
 }
 
-void loom::ui::inkjet::HLine(float margin)
+void loom::ui::HLine(float margin)
 {
     auto draw_list = ImGui::GetCurrentWindow()->DrawList;
     draw_list->AddLine(
@@ -32,7 +32,7 @@ void loom::ui::inkjet::HLine(float margin)
     ImGui::Dummy({0, 1});
 }
 
-void loom::ui::inkjet::VLine()
+void loom::ui::VLine()
 {
     auto draw_list = ImGui::GetCurrentWindow()->DrawList;
     draw_list->AddLine(
@@ -42,7 +42,7 @@ void loom::ui::inkjet::VLine()
     ImGui::Dummy({1, 0});
 }
 
-void loom::ui::inkjet::DockSpace(bool leaveSpaceForStatusBar)
+void loom::ui::DockSpace(bool leaveSpaceForStatusBar)
 {
     const int padding = 0;
     ImGui::PushStyleVar(ImGuiStyleVar_DockingSeparatorSize, 1);
@@ -61,7 +61,7 @@ void loom::ui::inkjet::DockSpace(bool leaveSpaceForStatusBar)
     ImGui::PopStyleColor(2);
 }
 
-void loom::ui::inkjet::setStyle()
+void loom::ui::setStyle()
 {
     ImGuiStyle* style =  &ImGui::GetStyle();
     ImVec4* colors = style->Colors;
@@ -149,15 +149,15 @@ void loom::ui::inkjet::setStyle()
     ImPlot::GetStyle().UseLocalTime = true;
 }
 
-bool loom::ui::inkjet::TransparentButton(const char* name, const ImVec2& size)
+bool loom::ui::TransparentButton(const char* name, const ImVec2& size)
 {
-    ImGui::PushStyleColor(ImGuiCol_Button, inkjet::colorRGBA(0, 0, 0, 0));
+    ImGui::PushStyleColor(ImGuiCol_Button, colorRGBA(0, 0, 0, 0));
     bool ret = ImGui::Button(name, size);
     ImGui::PopStyleColor();
     return ret;
 }
 
-bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, const std::function<void(void)>& ShowMenu)
+bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::function<void(void)>& ShowMenu)
 {
     // returns true if focused
 
@@ -221,7 +221,7 @@ bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, cons
             ShowMenu();
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0,0});
             ImGui::EndMenuBar();
-            inkjet::HLine();
+            HLine();
             ImGui::PopStyleVar();
         }
     }
@@ -245,7 +245,7 @@ bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, cons
     return ImGui::IsWindowFocused();
 }
 
-void loom::ui::inkjet::End()
+void loom::ui::End()
 {
     ImGui::EndChild();
 
@@ -258,21 +258,21 @@ void loom::ui::inkjet::End()
     ImGui::End();
 }
 
-bool loom::ui::inkjet::InputText(const char *label, const char* hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags)
+bool loom::ui::InputText(const char *label, const char* hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags)
 {
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0);
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, inkjet::white);
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, white);
     bool ret = ImGui::InputTextWithHint(label, hint, buf, buf_size, flags);
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
     return ret;
 }
 
-void loom::ui::inkjet::WidgetMenuBar(const std::function<void()>& Menu, const std::function<void()>& Widget, const float& menuWidth)
+void loom::ui::WidgetMenuBar(const std::function<void()>& Menu, const std::function<void()>& Widget, const float& menuWidth)
 {
     // top line to distinguish Windows titlebar
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0, 0});
-    inkjet::HLine();
+    HLine();
     ImGui::PopStyleVar();
 
     // menu child
@@ -294,11 +294,11 @@ void loom::ui::inkjet::WidgetMenuBar(const std::function<void()>& Menu, const st
 
     // utility child end and line
     ImGui::EndChild();
-    inkjet::HLine();
+    HLine();
     ImGui::PopStyleVar();
 }
 
-bool loom::ui::inkjet::Combo(const char *label, int *index, const std::vector<std::string> &items)
+bool loom::ui::Combo(const char *label, int *index, const std::vector<std::string> &items)
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {16-1, 16-1});
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {8, 8});
@@ -319,7 +319,7 @@ bool loom::ui::inkjet::Combo(const char *label, int *index, const std::vector<st
     return true;
 }
 
-void loom::ui::inkjet::LED(inkjet::LEDColor ledColor, const ImVec2 &size)
+void loom::ui::LED(LEDColor ledColor, const ImVec2 &size)
 {
     ImColor color;
     switch (ledColor)
@@ -343,11 +343,11 @@ void loom::ui::inkjet::LED(inkjet::LEDColor ledColor, const ImVec2 &size)
     ImGui::Dummy(ImVec2(width, height));
 }
 
-bool loom::ui::inkjet::ButtonText(const char *text,  const ImVec2& size)
+bool loom::ui::ButtonText(const char *text,  const ImVec2& size)
 {
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, colorRGBA(0, 0, 0, 0));
     ImGui::PushStyleColor(ImGuiCol_ButtonActive, colorRGBA(0, 0, 0, 0));
-    bool ret = inkjet::TransparentButton(text, size);
+    bool ret = TransparentButton(text, size);
     ImGui::PopStyleColor(2);
     return ret;
 }
@@ -380,7 +380,7 @@ static int InputTextCallback(ImGuiInputTextCallbackData* data)
     return 0;
 }
 
-bool loom::ui::inkjet::InputTextStdString(const char *label, std::string *str, const std::string& hint, ImGuiInputTextFlags flags,
+bool loom::ui::InputTextStdString(const char *label, std::string *str, const std::string& hint, ImGuiInputTextFlags flags,
                                 ImGuiInputTextCallback callback, void *user_data)
 {
     IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
@@ -394,7 +394,7 @@ bool loom::ui::inkjet::InputTextStdString(const char *label, std::string *str, c
     return ImGui::InputTextWithHint(label, (char*)hint.c_str(), (char*)str->c_str(), str->capacity() + 1, flags, InputTextCallback, &cb_user_data);
 }
 
-bool loom::ui::inkjet::InputTextMultiLineStdString(const char *label, std::string *str, const ImVec2& size,
+bool loom::ui::InputTextMultiLineStdString(const char *label, std::string *str, const ImVec2& size,
                                          ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void *user_data)
 {
     IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
@@ -407,7 +407,7 @@ bool loom::ui::inkjet::InputTextMultiLineStdString(const char *label, std::strin
     return ImGui::InputTextMultiline(label, (char*)str->c_str(), str->capacity() + 1, size, flags, InputTextCallback, &cb_user_data);
 }
 
-void loom::ui::inkjet::TableLabel(const char *text)
+void loom::ui::TableLabel(const char *text)
 {
     //ImGui::Dummy(ImGui::GetStyle().ItemSpacing); ImGui::SameLine();
     ImGui::AlignTextToFramePadding();
@@ -415,7 +415,7 @@ void loom::ui::inkjet::TableLabel(const char *text)
     //ImGui::Dummy(ImGui::GetStyle().ItemSpacing);
 }
 
-bool loom::ui::inkjet::CheckBox(char *text, bool *value)
+bool loom::ui::CheckBox(char *text, bool *value)
 {
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {4,4});
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, {0, 0});
