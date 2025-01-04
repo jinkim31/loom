@@ -1,5 +1,5 @@
-#ifndef LOOM_UDP_CLIENT_H
-#define LOOM_UDP_CLIENT_H
+#ifndef LOOM_COMM_UDP_CLIENT_H
+#define LOOM_COMM_UDP_CLIENT_H
 
 #include <Poco/Net/Net.h>
 #include <Poco/Net/StreamSocket.h>

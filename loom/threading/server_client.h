@@ -1,5 +1,5 @@
-#ifndef LOOM_SERVER_CLIENT_H
-#define LOOM_SERVER_CLIENT_H
+#ifndef LOOM_THREADING_SERVER_CLIENT_H
+#define LOOM_THREADING_SERVER_CLIENT_H
 
 #include "transmitter_receiver.h"
 

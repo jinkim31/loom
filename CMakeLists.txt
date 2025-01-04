@@ -13,6 +13,7 @@ add_library(loom
         loom/threading/server_client.cpp
         loom/state_machine/state_machine.cpp
         loom/ui/ui.cpp
+        loom/ui/style.cpp
         loom/comm/udp_client.cpp)
 
 target_link_libraries(loom PRIVATE Poco::Net PUBLIC imgui_bundle)

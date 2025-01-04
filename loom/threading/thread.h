@@ -1,5 +1,5 @@
-#ifndef LOOM_THREAD_H
-#define LOOM_THREAD_H
+#ifndef LOOM_THREADING_THREAD_H
+#define LOOM_THREADING_THREAD_H
 
 #include <iostream>
 #include <thread>

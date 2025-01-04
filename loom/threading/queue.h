@@ -1,5 +1,5 @@
-#ifndef LOOM_QUEUE_H
-#define LOOM_QUEUE_H
+#ifndef LOOM_THREADING_QUEUE_H
+#define LOOM_THREADING_QUEUE_H
 
 #include <queue>
 #include <shared_mutex>

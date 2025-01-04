@@ -1,5 +1,5 @@
-#ifndef LOOM_UI
-#define LOOM_UI
+#ifndef LOOM_UI_UI
+#define LOOM_UI_UI
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
