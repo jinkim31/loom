@@ -39,3 +39,6 @@ target_link_libraries(loom_example_ui_imgui_demo PRIVATE loom)
 
 imgui_bundle_add_app(loom_example_ui_inkjet examples/ui/inkjet.cpp)
 target_link_libraries(loom_example_ui_inkjet PRIVATE loom)
+
+imgui_bundle_add_app(loom_example_ui_inkjet_threaded examples/ui/inkjet_threaded.cpp)
+target_link_libraries(loom_example_ui_inkjet_threaded PRIVATE loom)

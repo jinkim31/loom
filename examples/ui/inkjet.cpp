@@ -1,4 +1,6 @@
-#include <loom/ui/inkjet.h>
+#include <loom/loom.h>
+
+using namespace loom;
 
 class Application
 {
@@ -77,7 +79,6 @@ public:
         ImGui::PopStyleColor();
         inkjet::End();
 
-        ImGui::ShowDemoWindow();
         // end main
         inkjet::EndMainWindow();
     }

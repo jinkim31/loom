@@ -83,7 +83,7 @@ std::optional<RetType> Client<ArgType, RetType>::requestSync(
     mTransmitter->transmit(arg);
 
     auto startTime = std::chrono::high_resolution_clock::now();
-    while(!mReceiver->size()) // TODO: use condition variable, add timeout
+    while(!mReceiver->size()) // TODO: use condition variable
     {
         if(startTime + timeout < std::chrono::high_resolution_clock::now())
             return std::nullopt;

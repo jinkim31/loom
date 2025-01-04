@@ -146,6 +146,8 @@ private:
     std::chrono::high_resolution_clock::duration mLoopInterval;
 };
 
+struct Empty{static Empty empty;}; // for passing empty data through itc
+
 }
 
 #endif

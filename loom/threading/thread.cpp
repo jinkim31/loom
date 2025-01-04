@@ -82,3 +82,5 @@ void loom::ManualThread::step()
     loopCallback();
     std::this_thread::sleep_for(mLoopInterval);
 }
+
+loom::Empty loom::Empty::empty;
