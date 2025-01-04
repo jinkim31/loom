@@ -45,10 +45,10 @@ void loom::ui::inkjet::VLine()
 void loom::ui::inkjet::DockSpace(bool leaveSpaceForStatusBar)
 {
     const int padding = 0;
-    const int dockSpacing = 1;
-    ImGui::PushStyleVar(ImGuiStyleVar_DockingSeparatorSize, dockSpacing);
+    ImGui::PushStyleVar(ImGuiStyleVar_DockingSeparatorSize, 1);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0, 0});
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, {0, 4});
+    //ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {0, 8});
     ImGui::PushStyleColor(ImGuiCol_Border, ImGui::GetStyleColorVec4(ImGuiCol_Border));
     ImGui::PushStyleColor(ImGuiCol_Text, textSubtitle);
     ImGui::Dummy({0, padding});
@@ -123,7 +123,7 @@ void loom::ui::inkjet::setStyle()
     colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.20f, 0.20f, 0.20f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
     colors[ImGuiCol_TabSelectedOverline]    = highlight;
-    colors[ImGuiCol_TabSelected]            = colorRGB(232, 234, 240);
+    //colors[ImGuiCol_TabSelected]            = colorRGB(225, 230, 240);//colorRGB(232, 234, 240);
     colors[ImGuiCol_TabHovered]             = colorRGBA(220, 220, 220, 120);;
 
     style->WindowMenuButtonPosition = ImGuiDir_Right;
@@ -141,7 +141,7 @@ void loom::ui::inkjet::setStyle()
     style->FrameRounding = 0;
     style->FrameBorderSize = 0;
     style->TabBarBorderSize = 0;
-    style->TabBarOverlineSize = 2;
+    style->TabBarOverlineSize = 0;
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = white;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = colorRGBA(0,0,0,0);
@@ -163,21 +163,34 @@ bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, cons
 
     // check tab active
     ImGuiWindow* window = ImGui::FindWindowByName(name);
-    bool isActive = window != nullptr && !window->Hidden;
+    bool isSelected = window != nullptr && !window->Hidden;
 
     // background color
     ImGui::PushStyleColor(ImGuiCol_WindowBg, panel);
 
+    // check if window is focused
+    ImGuiID id = ImGui::GetID(name);
+    static std::map<ImGuiID, bool> windowFocusedMap;
+    bool isFocused = false;
+    auto windowFocusedIter = windowFocusedMap.find(id);
+    if(windowFocusedIter != windowFocusedMap.end() && windowFocusedIter->second)
+        isFocused = true;
+
     // apply tab hover color
     bool isHovering = window != nullptr && ImGui::IsMouseHoveringRect(window->DockTabItemRect.Min, window->DockTabItemRect.Max);
-    ImGui::PushStyleColor(ImGuiCol_Text, isActive ? highlight : (isHovering ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : textSubtitle));
+    ImGui::PushStyleColor(ImGuiCol_Text, isSelected
+    ? (isFocused ? highlight : ImGui::GetStyleColorVec4(ImGuiCol_Text) )
+    : (isHovering ? textSubtitle : textSubtitle));
 
     // zero window padding for tab border
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
 
     // begin window
-    ImGuiWindowFlags flags =   ImGuiWindowFlags_NoScrollbar;
+    ImGuiWindowFlags flags =  ImGuiWindowFlags_NoScrollbar;
     ImGui::Begin(name, open, flags);
+
+    // update focused map
+    windowFocusedMap[id] = ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows);
 
     // pop title color
     ImGui::PopStyleColor();
@@ -240,21 +253,6 @@ void loom::ui::inkjet::End()
 
     // end window
     ImGui::End();
-}
-
-void loom::ui::inkjet::initFont()
-{
-    float fontSize = 16.0f;
-
-    HelloImGui::FontLoadingParams mainFontLoadingParams;
-    mainFontLoadingParams.useFullGlyphRange = true;
-    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , fontSize, mainFontLoadingParams);
-
-    HelloImGui::FontLoadingParams iconFontLoadingParams;
-    iconFontLoadingParams.mergeToLastFont = true;
-    iconFontLoadingParams.useFullGlyphRange = true;
-    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
-    HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
 }
 
 bool loom::ui::inkjet::InputText(const char *label, const char* hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags)

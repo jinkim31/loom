@@ -12,7 +12,7 @@ public:
         runnerParams.callbacks.ShowGui = [&]{render();};
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
-        runnerParams.callbacks.LoadAdditionalFonts = inkjet::initFont;
+        runnerParams.callbacks.LoadAdditionalFonts = inkjet::loadFont;
         runnerParams.imGuiWindowParams.enableViewports = false;
         runnerParams.fpsIdling.enableIdling = false;
         runnerParams.appWindowParams.windowTitle = "inkjet";
@@ -78,6 +78,8 @@ public:
             ImPlot::EndPlot();
         ImGui::PopStyleColor();
         inkjet::End();
+
+        ImGui::ShowDemoWindow();
 
         // end main
         inkjet::EndMainWindow();

@@ -44,8 +44,6 @@ Begin(const char *name, bool *open = NULL, bool usePadding = true, const std::fu
 
 void End();
 
-void initFont();
-
 void loadFont()
 {
     float fontSize = 16.0f;
