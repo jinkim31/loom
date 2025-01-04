@@ -123,6 +123,7 @@ void inkjet::setStyle()
     colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
     colors[ImGuiCol_TabSelectedOverline]    = highlight;
     colors[ImGuiCol_TabSelected]            = colorRGB(232, 234, 240);
+    colors[ImGuiCol_TabHovered]             = colorRGBA(220, 220, 220, 120);;
 
     style->WindowMenuButtonPosition = ImGuiDir_Right;
     style->WindowPadding = {12, 12};
