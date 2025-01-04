@@ -1,6 +1,6 @@
 #include <loom/loom.h>
 
-using namespace loom;
+using namespace loom::ui;
 
 class Application
 {
