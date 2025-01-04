@@ -179,7 +179,7 @@ bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, cons
     // apply tab hover color
     bool isHovering = window != nullptr && ImGui::IsMouseHoveringRect(window->DockTabItemRect.Min, window->DockTabItemRect.Max);
     ImGui::PushStyleColor(ImGuiCol_Text, isSelected
-    ? (isFocused ? highlight : ImGui::GetStyleColorVec4(ImGuiCol_Text) )
+    ? (isFocused ? highlight : textSubtitle)
     : (isHovering ? textSubtitle : textSubtitle));
 
     // zero window padding for tab border
@@ -197,7 +197,10 @@ bool loom::ui::inkjet::Begin(const char* name, bool* open, bool usePadding, cons
 
     // tab border without spacing below
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0,0});
+
+    // line
     HLine();
+
     ImGui::PopStyleVar();
 
     ImGui::PopStyleColor();
