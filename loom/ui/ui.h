@@ -1,5 +1,5 @@
-#ifndef LOOM_UI_INKJET
-#define LOOM_UI_INKJET
+#ifndef LOOM_UI
+#define LOOM_UI
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
@@ -71,9 +71,6 @@ void HLine(float margin = 0.0);
 void VLine();
 
 void TableLabel(const char *text);
-#ifdef INKJET_WITH_IMMVISION
-void ImageView(char* name, cv::Mat mat, ImmVision::ImageParams& param, bool home, bool refresh);
-#endif
 
 bool Combo(const char *label, int *index, const std::vector<std::string> &items);
 

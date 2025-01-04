@@ -2,25 +2,25 @@
 #include <Poco/Net/NetException.h>
 
 
-inkjet::UDPClient::UDPClient()
+loom::comm::UDPClient::UDPClient()
 {
 
 }
 
-bool inkjet::UDPClient::open(const std::string &ipString, const unsigned short& port)
+bool loom::comm::UDPClient::open(const std::string &ipString, const unsigned short& port)
 {
     Poco::Net::SocketAddress address(Poco::Net::IPAddress(ipString), port);
     mSocket.connect(address);
     return true;
 }
 
-bool inkjet::UDPClient::close()
+bool loom::comm::UDPClient::close()
 {
     mSocket.close();
     return true;
 }
 
-void inkjet::UDPClient::write(const std::string &data)
+void loom::comm::UDPClient::write(const std::string &data)
 {
     try{
         size_t nSent = mSocket.sendBytes(data.data(), data.length());
@@ -32,7 +32,7 @@ void inkjet::UDPClient::write(const std::string &data)
     }
 }
 
-void inkjet::UDPClient::write(const std::vector<uint8_t> &data)
+void loom::comm::UDPClient::write(const std::vector<uint8_t> &data)
 {
     try{
         mSocket.sendBytes(data.data(), data.size());
@@ -42,7 +42,7 @@ void inkjet::UDPClient::write(const std::vector<uint8_t> &data)
     }
 }
 
-std::vector<uint8_t> inkjet::UDPClient::read()
+std::vector<uint8_t> loom::comm::UDPClient::read()
 {
     poll();
     auto readBufferCopied =  mReadBuffer;
@@ -50,7 +50,7 @@ std::vector<uint8_t> inkjet::UDPClient::read()
     return readBufferCopied;
 }
 
-size_t inkjet::UDPClient::readMem(uint8_t* buffer, const int& bufferSize)
+size_t loom::comm::UDPClient::readMem(uint8_t* buffer, const int& bufferSize)
 {
     if (mSocket.available())
     {
@@ -60,7 +60,7 @@ size_t inkjet::UDPClient::readMem(uint8_t* buffer, const int& bufferSize)
     return 0;
 }
 
-size_t inkjet::UDPClient::poll()
+size_t loom::comm::UDPClient::poll()
 {
     try
     {
@@ -79,7 +79,7 @@ size_t inkjet::UDPClient::poll()
     }
 }
 
-size_t inkjet::UDPClient::available()
+size_t loom::comm::UDPClient::available()
 {
     poll();
     return mReadBuffer.size();

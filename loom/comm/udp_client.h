@@ -7,7 +7,7 @@
 #include <Poco/Net/DatagramSocket.h>
 #include <Poco/Timespan.h>
 
-namespace inkjet
+namespace loom::comm
 {
 
 class UDPClient
