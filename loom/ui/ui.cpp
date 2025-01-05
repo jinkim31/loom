@@ -91,7 +91,7 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
     // apply tab hover color
     bool isHovering = window != nullptr && ImGui::IsMouseHoveringRect(window->DockTabItemRect.Min, window->DockTabItemRect.Max);
     ImGui::PushStyleColor(ImGuiCol_Text, isSelected
-    ? (isFocused ? getStyle().highlight : getStyle().subtext)
+    ? (isFocused ? getStyle().highlight : getStyle().text)
     : (isHovering ? getStyle().subtext : getStyle().subtext));
 
     // zero window padding for tab border

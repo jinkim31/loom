@@ -83,6 +83,9 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imStyle->FrameBorderSize = 0;
     imStyle->TabBarBorderSize = 0;
     imStyle->TabBarOverlineSize = 0;
+    imStyle->PopupRounding = 0;
+    imStyle->FrameRounding = 4;
+    imStyle->GrabRounding = 4;
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = style.background;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = style.foreground;
@@ -127,6 +130,6 @@ loom::ui::Style loom::ui::darkStyle()
     style.foreground = colorRGB(35, 36, 38);
     style.border = colorRGB(14, 15, 18);
     style.text = colorRGB(227, 228, 230);
-    style.subtext = colorA(style.text, 220);
+    style.subtext = colorA(style.text, 190);
     return style;
 }

@@ -8,7 +8,7 @@ public:
     Application()
     {
         HelloImGui::RunnerParams runnerParams;
-        runnerParams.callbacks.SetupImGuiStyle = []{ui::setStyle(ui::lightStyle());};
+        runnerParams.callbacks.SetupImGuiStyle = []{ui::setStyle(ui::darkStyle());};
         runnerParams.callbacks.ShowGui = [&]{render();};
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
