@@ -338,3 +338,24 @@ bool loom::ui::CheckBox(char *text, bool *value)
     ImGui::PopStyleVar(3);
     return ret;
 }
+
+std::map<ImGuiID, float> rightAlignSpaceMap;
+
+bool loom::ui::BeginRightAlign(char *id)
+{
+    ImGui::PushID(id);
+    auto rightAlignSpace = rightAlignSpaceMap.find(ImGui::GetID("alignSpace"));
+    if(rightAlignSpace != rightAlignSpaceMap.end())
+    {
+        ImGui::Dummy({rightAlignSpace->second, 0});
+        ImGui::SameLine();
+    }
+    return true;
+}
+
+void loom::ui::EndRightAlign()
+{
+    ImGui::SameLine();
+    rightAlignSpaceMap[ImGui::GetID("alignSpace")] += ImGui::GetContentRegionAvail().x;
+    ImGui::PopID();
+}

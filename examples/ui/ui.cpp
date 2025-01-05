@@ -51,12 +51,20 @@ public:
                 ImGui::EndMenu();
             }
         }, []{
-            ImGui::PushStyleColor(ImGuiCol_Text, ui::colorRGB(76, 175, 80));
-            ui::TransparentButton(ICON_MD_PLAY_ARROW"##UtilityButton"); ImGui::SameLine();
-            ImGui::PopStyleColor();
-            char buffer[100] = "";
-            ui::InputText("##UtillityText", "Utility Text", buffer, 100); ImGui::SameLine();
-        });
+            if(ui::BeginRightAlign())
+            {
+                char buffer[100] = "";
+                ImGui::PushItemWidth(300);
+                ui::InputText("##UtillityText", "Utility Text", buffer, 100);
+                ImGui::SameLine();
+
+                ImGui::PushStyleColor(ImGuiCol_Text, ui::colorRGB(76, 175, 80));
+                ui::TransparentButton(ICON_MD_PLAY_ARROW"##UtilityButton");
+                ImGui::PopStyleColor();
+
+                ui::EndRightAlign();
+            }
+        }, 300);
 
         // dockspace
         ui::DockSpace();

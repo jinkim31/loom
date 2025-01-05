@@ -80,6 +80,10 @@ bool InputTextMultiLineStdString(const char *label, std::string *str, const ImVe
 
 bool CheckBox(char *text, bool *value);
 
+bool BeginRightAlign(char* id="rightAlign");
+
+void EndRightAlign();
+
 }
 
 
