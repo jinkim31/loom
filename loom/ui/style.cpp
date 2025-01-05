@@ -27,7 +27,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imColors[ImGuiCol_ScrollbarGrabHovered]   = colorA(style.text, 80);
     imColors[ImGuiCol_ScrollbarGrabActive]    = colorA(style.text, 90);
     imColors[ImGuiCol_CheckMark]              = style.highlight;
-    imColors[ImGuiCol_SliderGrab]             = colorA(style.highlight, 170);
+    imColors[ImGuiCol_SliderGrab]             = colorA(style.highlight, 180);
     imColors[ImGuiCol_SliderGrabActive]       = colorA(style.highlight, 200);
     imColors[ImGuiCol_Button]                 = colorA(style.text, 20);
     imColors[ImGuiCol_ButtonHovered]          = colorA(style.text, 30);
@@ -46,7 +46,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imColors[ImGuiCol_TabActive]              = style.foreground;
     imColors[ImGuiCol_TabUnfocused]           = style.foreground;
     imColors[ImGuiCol_TabUnfocusedActive]     = style.foreground;
-    imColors[ImGuiCol_DockingPreview]         = colorA(style.highlight, 100);
+    imColors[ImGuiCol_DockingPreview]         = colorA(style.highlight, 80);
     imColors[ImGuiCol_DockingEmptyBg]         = colorRGB(255, 0, 0);
     imColors[ImGuiCol_PlotLines]              = colorRGB(255, 0, 0);
     imColors[ImGuiCol_PlotLinesHovered]       = colorRGB(255, 0, 0);
@@ -60,7 +60,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imColors[ImGuiCol_TextSelectedBg]         = colorA(style.highlight, 120);
     imColors[ImGuiCol_DragDropTarget]         = style.highlight;
     imColors[ImGuiCol_NavHighlight]           = colorA(style.highlight, 200);
-    imColors[ImGuiCol_NavWindowingHighlight]  = colorA(style.highlight, 200);
+    imColors[ImGuiCol_NavWindowingHighlight]  = colorA(style.highlight, 150);
     imColors[ImGuiCol_NavWindowingDimBg]      = colorA(style.highlight, 200);
     imColors[ImGuiCol_ModalWindowDimBg]       = colorRGB(255, 0, 0);
     imColors[ImGuiCol_TabSelectedOverline]    = style.highlight;
@@ -124,7 +124,7 @@ loom::ui::Style loom::ui::darkStyle()
     loom::ui::Style style;
     style.highlight = colorRGB(41, 98, 255);
     style.background = colorRGB(0, 0, 0);
-    style.foreground = colorRGB(31, 33, 38);
+    style.foreground = colorRGB(35, 36, 38);
     style.border = colorRGB(14, 15, 18);
     style.text = colorRGB(227, 228, 230);
     style.subtext = colorA(style.text, 220);

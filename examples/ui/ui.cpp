@@ -13,7 +13,7 @@ public:
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
         runnerParams.callbacks.LoadAdditionalFonts = ui::loadFont;
-        runnerParams.imGuiWindowParams.enableViewports = false;
+        runnerParams.imGuiWindowParams.enableViewports = true;
         runnerParams.fpsIdling.enableIdling = false;
         runnerParams.appWindowParams.windowTitle = "ui";
         ImmApp::AddOnsParams addOnsParams;
@@ -79,7 +79,9 @@ public:
         ImGui::PopStyleColor();
         ui::End();
 
-        ImGui::ShowDemoWindow();
+        ui::Begin(ICON_MD_BRUSH" Style Editor");
+        ImGui::ShowStyleEditor();
+        ui::End();
 
         // end main
         ui::EndMainWindow();
