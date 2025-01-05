@@ -8,7 +8,7 @@ public:
     Application()
     {
         HelloImGui::RunnerParams runnerParams;
-        runnerParams.callbacks.SetupImGuiStyle = ui::setStyle;
+        runnerParams.callbacks.SetupImGuiStyle = []{ui::setStyle(ui::lightStyle());};
         runnerParams.callbacks.ShowGui = [&]{render();};
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
@@ -73,11 +73,13 @@ public:
         ui::End();
 
         ui::Begin(ICON_MD_BAR_CHART" Plot");
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::white);
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::getStyle().background);
         if(ImPlot::BeginPlot("Plot", ImGui::GetContentRegionAvail()))
             ImPlot::EndPlot();
         ImGui::PopStyleColor();
         ui::End();
+
+        ImGui::ShowDemoWindow();
 
         // end main
         ui::EndMainWindow();

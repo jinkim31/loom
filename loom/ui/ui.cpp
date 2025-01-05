@@ -7,7 +7,7 @@ void loom::ui::BeginMainWindow()
     ImGui::SetNextWindowPos(viewport->WorkPos);
     ImGui::SetNextWindowSize(viewport->WorkSize);
     ImGui::SetNextWindowViewport(viewport->ID);
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, background);
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, getStyle().border);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
     ImGui::Begin("MAIN", NULL,
@@ -50,7 +50,7 @@ void loom::ui::DockSpace(bool leaveSpaceForStatusBar)
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, {0, 4});
     //ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {0, 8});
     ImGui::PushStyleColor(ImGuiCol_Border, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-    ImGui::PushStyleColor(ImGuiCol_Text, textSubtitle);
+    ImGui::PushStyleColor(ImGuiCol_Text, getStyle().subtext);
     ImGui::Dummy({0, padding});
     ImGui::Dummy({padding, 0});
     ImGui::SameLine();
@@ -59,94 +59,6 @@ void loom::ui::DockSpace(bool leaveSpaceForStatusBar)
                      ImGuiDockNodeFlags_PassthruCentralNode|ImGuiDockNodeFlags_NoCloseButton|ImGuiDockNodeFlags_NoWindowMenuButton);
     ImGui::PopStyleVar(3);
     ImGui::PopStyleColor(2);
-}
-
-void loom::ui::setStyle()
-{
-    ImGuiStyle* style =  &ImGui::GetStyle();
-    ImVec4* colors = style->Colors;
-
-
-    colors[ImGuiCol_Text]                   = colorRGB(34, 34, 34);
-    colors[ImGuiCol_TextDisabled]           = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
-    colors[ImGuiCol_WindowBg]               = panel;
-    colors[ImGuiCol_ChildBg]                = panel;
-    colors[ImGuiCol_PopupBg]                = panel;
-    colors[ImGuiCol_Border]                 = border;
-    colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-    colors[ImGuiCol_FrameBg]                = white;
-    colors[ImGuiCol_FrameBgHovered]         = colorRGBA(220, 220, 220, 120);
-    colors[ImGuiCol_FrameBgActive]          = colorRGBA(220, 220, 220, 170);
-    colors[ImGuiCol_TitleBg]                = panel;
-    colors[ImGuiCol_TitleBgActive]          = panel;
-    colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(1.00f, 1.00f, 1.00f, 0.51f);
-    colors[ImGuiCol_MenuBarBg]              = panel;
-    colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.98f, 0.98f, 0.98f, 0.53f);
-    colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.69f, 0.69f, 0.69f, 0.80f);
-    colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.49f, 0.49f, 0.49f, 0.80f);
-    colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.49f, 0.49f, 0.49f, 1.00f);
-    colors[ImGuiCol_CheckMark]              = colorRGB(34, 34, 34);
-    colors[ImGuiCol_SliderGrab]             = colorRGB(170, 170, 170);
-    colors[ImGuiCol_SliderGrabActive]       = highlight;
-    colors[ImGuiCol_Button]                 = colorRGBA(210, 210, 210, 70);
-    colors[ImGuiCol_ButtonHovered]          = colorRGBA(220, 220, 220, 120);
-    colors[ImGuiCol_ButtonActive]           = colorRGBA(220, 220, 220, 170);
-    colors[ImGuiCol_Header]                 = colorRGBA(220, 220, 220, 70);
-    colors[ImGuiCol_HeaderHovered]          = colorRGBA(220, 220, 220, 120);
-    colors[ImGuiCol_HeaderActive]           = colorRGBA(220, 220, 220, 170);
-    colors[ImGuiCol_Separator]              = colorRGBA(220, 220, 220, 70);
-    colors[ImGuiCol_SeparatorHovered]       = colorRGBA(220, 220, 220, 120);
-    colors[ImGuiCol_SeparatorActive]        = colorRGBA(220, 220, 220, 150);
-    colors[ImGuiCol_ResizeGrip]             = ImVec4(0.35f, 0.35f, 0.35f, 0.17f);
-    colors[ImGuiCol_ResizeGripHovered]      = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
-    colors[ImGuiCol_ResizeGripActive]       = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
-    colors[ImGuiCol_Tab]                    = panel;
-    colors[ImGuiCol_TabHovered]             = panel;
-    colors[ImGuiCol_TabActive]              = panel;
-    colors[ImGuiCol_TabUnfocused]           = panel;
-    colors[ImGuiCol_TabUnfocusedActive]     = panel;
-    //colors[ImGuiCol_DockingPreview]         = colors[ImGuiCol_Header] * ImVec4(1.0f, 1.0f, 1.0f, 0.7f);
-    colors[ImGuiCol_DockingEmptyBg]         = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
-    colors[ImGuiCol_PlotLines]              = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
-    colors[ImGuiCol_PlotLinesHovered]       = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
-    colors[ImGuiCol_PlotHistogram]          = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-    colors[ImGuiCol_PlotHistogramHovered]   = ImVec4(1.00f, 0.45f, 0.00f, 1.00f);
-    colors[ImGuiCol_TableHeaderBg]          = colorRGB(229, 232, 237);
-    colors[ImGuiCol_TableBorderStrong]      = border;
-    colors[ImGuiCol_TableBorderLight]       = border;
-    colors[ImGuiCol_TableRowBg]             = white;
-    colors[ImGuiCol_TableRowBgAlt]          = colorRGB(248, 248, 248);
-    colors[ImGuiCol_TextSelectedBg]         = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
-    colors[ImGuiCol_DragDropTarget]         = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
-    colors[ImGuiCol_NavHighlight]           = colors[ImGuiCol_HeaderHovered];
-    colors[ImGuiCol_NavWindowingHighlight]  = ImVec4(0.70f, 0.70f, 0.70f, 0.70f);
-    colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.20f, 0.20f, 0.20f, 0.20f);
-    colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
-    colors[ImGuiCol_TabSelectedOverline]    = highlight;
-    //colors[ImGuiCol_TabSelected]            = colorRGB(225, 230, 240);//colorRGB(232, 234, 240);
-    colors[ImGuiCol_TabHovered]             = colorRGBA(220, 220, 220, 120);;
-
-    style->WindowMenuButtonPosition = ImGuiDir_Right;
-    style->WindowPadding = {12, 12};
-    style->FramePadding = {8, 8};
-    style->ItemSpacing = {12, 12};
-    style->ItemInnerSpacing = {4, 4};
-    style->WindowBorderSize = 1;
-    style->WindowRounding = 0;
-    style->CellPadding = {0, 0};
-    style->IndentSpacing = 16.0;
-    style->TabRounding = 0.0;
-    style->ChildRounding = 0.0;
-    style->WindowMinSize = {100, 100};
-    style->FrameRounding = 0;
-    style->FrameBorderSize = 0;
-    style->TabBarBorderSize = 0;
-    style->TabBarOverlineSize = 0;
-
-    ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = white;
-    ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = colorRGBA(0,0,0,0);
-    ImPlot::GetStyle().PlotPadding = {0, 0};
-    ImPlot::GetStyle().UseLocalTime = true;
 }
 
 bool loom::ui::TransparentButton(const char* name, const ImVec2& size)
@@ -166,7 +78,7 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
     bool isSelected = window != nullptr && !window->Hidden;
 
     // background color
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, panel);
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, getStyle().foreground);
 
     // check if window is focused
     ImGuiID id = ImGui::GetID(name);
@@ -179,8 +91,8 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
     // apply tab hover color
     bool isHovering = window != nullptr && ImGui::IsMouseHoveringRect(window->DockTabItemRect.Min, window->DockTabItemRect.Max);
     ImGui::PushStyleColor(ImGuiCol_Text, isSelected
-    ? (isFocused ? highlight : textSubtitle )
-    : (isHovering ? textSubtitle : textSubtitle));
+    ? (isFocused ? getStyle().highlight : getStyle().subtext)
+    : (isHovering ? getStyle().subtext : getStyle().subtext));
 
     // zero window padding for tab border
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
@@ -261,7 +173,7 @@ void loom::ui::End()
 bool loom::ui::InputText(const char *label, const char* hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags)
 {
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0);
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, white);
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, getStyle().background);
     bool ret = ImGui::InputTextWithHint(label, hint, buf, buf_size, flags);
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();

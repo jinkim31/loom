@@ -8,24 +8,11 @@
 #include <implot/implot.h>
 #include <unordered_map>
 #include "../../external/IconFontCppHeaders/IconsMaterialDesign.h"
-
-
+#include "style.h"
 
 namespace loom::ui
 {
 
-static ImVec4 colorRGB(uint8_t r, uint8_t g, uint8_t b)
-{ return {r / 255.0f, g / 255.0f, b / 255.0f, 1.0f}; }
-
-static ImVec4 colorRGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-{ return {r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f}; }
-
-static const ImVec4 white = colorRGB(255, 255, 255);
-static const ImVec4 background = colorRGB(250, 250, 250);
-static const ImVec4 panel = colorRGB(242, 242, 242);
-static const ImVec4 highlight = colorRGB(41, 98, 255);
-static const ImVec4 textSubtitle = colorRGB(105, 105, 105);
-static const ImVec4 border = colorRGB(211, 211, 211);
 static const ImVec4 green = ImColor(98, 197, 84);
 static const ImVec4 red = ImColor(237, 106, 95);
 static const ImVec4 yellow = ImColor(245, 191, 76);
@@ -36,8 +23,6 @@ void BeginMainWindow();
 void EndMainWindow();
 
 void DockSpace(bool leaveSpaceForStatusBar = true);
-
-void setStyle();
 
 bool
 Begin(const char *name, bool *open = NULL, bool usePadding = true, const std::function<void(void)> &ShowMenu = NULL);
