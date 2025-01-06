@@ -41,7 +41,8 @@ void loadFont()
     iconFontLoadingParams.mergeToLastFont = true;
     iconFontLoadingParams.useFullGlyphRange = true;
     iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
-    HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
+    //HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
+    HelloImGui::LoadFont("fonts/MaterialSymbolsRounded-Light.ttf" , fontSize * 1.4, iconFontLoadingParams);
 }
 
 bool InputText(const char *label, const char *hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags = 0);

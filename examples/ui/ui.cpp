@@ -62,6 +62,14 @@ public:
                 ui::TransparentButton(ICON_MD_PLAY_ARROW"##UtilityButton");
                 ImGui::PopStyleColor();
 
+                ImGui::SameLine();
+                ImGui::Dummy({24, 0});
+
+                //ImGui::PushStyleColor(ImGuiCol_Text, ui::colorRGB(76, 175, 80));
+                ImGui::SameLine();
+                ui::TransparentButton(ICON_MD_SETTINGS"##UtilityButton");
+                //ImGui::PopStyleColor();
+
                 ui::EndRightAlign();
             }
         }, 300);
@@ -81,7 +89,7 @@ public:
         ui::End();
 
         ui::Begin(ICON_MD_BAR_CHART" Plot");
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::getStyle().background);
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::getStyle().border);
         if(ImPlot::BeginPlot("Plot", ImGui::GetContentRegionAvail()))
             ImPlot::EndPlot();
         ImGui::PopStyleColor();

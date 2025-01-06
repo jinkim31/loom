@@ -22,7 +22,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imColors[ImGuiCol_TitleBgActive]          = style.foreground;
     imColors[ImGuiCol_TitleBgCollapsed]       = style.foreground;
     imColors[ImGuiCol_MenuBarBg]              = style.foreground;
-    imColors[ImGuiCol_ScrollbarBg]            = style.background;
+    imColors[ImGuiCol_ScrollbarBg]            = colorA(style.background, 0);
     imColors[ImGuiCol_ScrollbarGrab]          = colorA(style.text, 70);
     imColors[ImGuiCol_ScrollbarGrabHovered]   = colorA(style.text, 80);
     imColors[ImGuiCol_ScrollbarGrabActive]    = colorA(style.text, 90);
@@ -86,10 +86,13 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imStyle->PopupRounding = 0;
     imStyle->FrameRounding = 4;
     imStyle->GrabRounding = 4;
+    imStyle->ScrollbarSize = 14;
+    imStyle->SeparatorTextBorderSize = 1;
+    imStyle->SeparatorTextPadding = {4, 4};
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = style.background;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = style.foreground;
-    ImPlot::GetStyle().Colors[ImPlotCol_AxisGrid] = colorA(style.subtext, 120);
+    ImPlot::GetStyle().Colors[ImPlotCol_AxisGrid] = colorA(style.subtext, 200);
     ImPlot::GetStyle().PlotPadding = {0, 0};
     ImPlot::GetStyle().UseLocalTime = true;
 }
