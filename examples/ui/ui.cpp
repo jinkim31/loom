@@ -8,7 +8,7 @@ public:
     Application()
     {
         HelloImGui::RunnerParams runnerParams;
-        runnerParams.callbacks.SetupImGuiStyle = []{ui::setStyle(ui::darkStyle());};
+        runnerParams.callbacks.SetupImGuiStyle = []{ui::setStyle(ui::lightStyle());};
         runnerParams.callbacks.ShowGui = [&]{render();};
         runnerParams.callbacks.BeforeExit = [&]{};
         runnerParams.imGuiWindowParams.defaultImGuiWindowType = HelloImGui::DefaultImGuiWindowType::NoDefaultWindow;
@@ -85,8 +85,19 @@ public:
         ImGui::EndChild();
         ImGui::PopStyleVar();
 
-        ui::Begin(ICON_MD_TERMINAL" Terminal");
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ui::getStyle().background);
+        ui::Begin(ICON_MD_TERMINAL" Terminal 1");
+        char t1[1024];
+        ImGui::InputTextMultiline("##text", t1, 1024, ImGui::GetContentRegionAvail());
         ui::End();
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ui::getStyle().background);
+        ui::Begin(ICON_MD_TERMINAL" Terminal 2");
+        char t2[1024];
+        ImGui::InputTextMultiline("##text", t2, 1024, ImGui::GetContentRegionAvail());
+        ui::End();
+        ImGui::PopStyleColor();
 
         ui::Begin(ICON_MD_BAR_CHART" Plot");
         ImGui::PushStyleColor(ImGuiCol_FrameBg, ui::getStyle().border);

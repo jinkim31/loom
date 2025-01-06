@@ -31,7 +31,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imColors[ImGuiCol_SliderGrabActive]       = colorA(style.highlight, 200);
     imColors[ImGuiCol_Button]                 = colorA(style.text, 20);
     imColors[ImGuiCol_ButtonHovered]          = colorA(style.text, 30);
-    imColors[ImGuiCol_ButtonActive]           = colorA(style.text, 40);
+    imColors[ImGuiCol_ButtonActive]           = colorA(style.text, 22);
     imColors[ImGuiCol_Header]                 = colorA(style.text, 20);
     imColors[ImGuiCol_HeaderHovered]          = colorA(style.text, 30);
     imColors[ImGuiCol_HeaderActive]           = colorA(style.text, 40);
@@ -89,6 +89,8 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imStyle->ScrollbarSize = 14;
     imStyle->SeparatorTextBorderSize = 1;
     imStyle->SeparatorTextPadding = {4, 4};
+    imStyle->Alpha = 1.0f;
+    imStyle->AntiAliasedLines = false;
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = style.background;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = style.foreground;
@@ -131,7 +133,7 @@ loom::ui::Style loom::ui::darkStyle()
     style.highlight = colorRGB(41, 98, 255);
     style.background = colorRGB(0, 0, 0);
     style.foreground = colorRGB(35, 36, 38);
-    style.border = colorRGB(14, 15, 18);
+    style.border = colorRGB(25, 26, 27);
     style.text = colorRGB(227, 228, 230);
     style.subtext = colorA(style.text, 190);
     return style;

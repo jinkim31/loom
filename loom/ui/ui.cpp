@@ -26,9 +26,9 @@ void loom::ui::HLine(float margin)
 {
     auto draw_list = ImGui::GetCurrentWindow()->DrawList;
     draw_list->AddLine(
-            ImGui::GetCursorScreenPos() + ImVec2{margin, 0},
-            ImGui::GetCursorScreenPos() + ImVec2(ImGui::GetContentRegionAvail().x-margin, 0),
-            ImGui::GetColorU32(ImGuiCol_Border));
+            ImGui::GetCursorScreenPos() + ImVec2{0, 0},
+            ImGui::GetCursorScreenPos() + ImVec2(ImGui::GetContentRegionAvail().x, 0),
+            ImGui::GetColorU32(getStyle().border));
     ImGui::Dummy({0, 1});
 }
 
@@ -78,7 +78,7 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
     bool isSelected = window != nullptr && !window->Hidden;
 
     // background color
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, getStyle().foreground);
+    //ImGui::PushStyleColor(ImGuiCol_WindowBg, getStyle().background);
 
     // check if window is focused
     ImGuiID id = ImGui::GetID(name);
@@ -105,7 +105,7 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
     windowFocusedMap[id] = ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows);
 
     // pop title color
-    ImGui::PopStyleColor();
+    //ImGui::PopStyleColor();
 
     // tab border without spacing below
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0,0});
@@ -154,7 +154,7 @@ bool loom::ui::Begin(const char* name, bool* open, bool usePadding, const std::f
                           ImGuiWindowFlags_None);
     }
 
-    return ImGui::IsWindowFocused();
+    return true;
 }
 
 void loom::ui::End()
@@ -182,7 +182,7 @@ bool loom::ui::InputText(const char *label, const char* hint, char *buf, size_t 
 
 void loom::ui::WidgetMenuBar(const std::function<void()>& Menu, const std::function<void()>& Widget, const float& menuWidth)
 {
-    // top line to distinguish Windows titlebar
+    // top line to distinguish "Windows" titlebar
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {0, 0});
     HLine();
     ImGui::PopStyleVar();
