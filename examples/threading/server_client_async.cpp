@@ -1,5 +1,5 @@
 #include <iostream>
-#include "loom/loom.h"
+#include "loom/loom/loom.h"
 
 
 class ServerThread : public loom::LoopingThread

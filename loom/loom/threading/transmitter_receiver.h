@@ -5,6 +5,8 @@
 #include <set>
 #include <iostream>
 #include <map>
+#include <memory>
+#include <functional>
 
 
 namespace loom

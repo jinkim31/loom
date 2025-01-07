@@ -1,5 +1,4 @@
 #include "ui.h"
-#include <thread>
 
 void loom::ui::BeginMainWindow()
 {
@@ -341,7 +340,7 @@ bool loom::ui::CheckBox(char *text, bool *value)
 
 std::map<ImGuiID, float> rightAlignSpaceMap;
 
-bool loom::ui::BeginRightAlign(char *id)
+bool loom::ui::BeginRightAlign(const char *id)
 {
     ImGui::PushID(id);
     auto rightAlignSpace = rightAlignSpaceMap.find(ImGui::GetID("alignSpace"));
@@ -358,4 +357,20 @@ void loom::ui::EndRightAlign()
     ImGui::SameLine();
     rightAlignSpaceMap[ImGui::GetID("alignSpace")] += ImGui::GetContentRegionAvail().x;
     ImGui::PopID();
+}
+
+void loom::ui::loadFont()
+{
+    float fontSize = 16.0f;
+
+    HelloImGui::FontLoadingParams mainFontLoadingParams;
+    mainFontLoadingParams.useFullGlyphRange = true;
+    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , fontSize, mainFontLoadingParams);
+
+    HelloImGui::FontLoadingParams iconFontLoadingParams;
+    iconFontLoadingParams.mergeToLastFont = true;
+    iconFontLoadingParams.useFullGlyphRange = true;
+    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
+    //HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
+    HelloImGui::LoadFont("fonts/MaterialSymbolsRounded-Light.ttf" , fontSize * 1.4, iconFontLoadingParams);
 }

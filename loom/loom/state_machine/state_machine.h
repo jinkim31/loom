@@ -3,7 +3,7 @@
 
 #define LOOM_ENUM_STRING_PAIR(x) {x, #x}
 
-#include "../threading/thread.h"
+#include <loom/threading/thread.h>
 #include <unordered_map>
 #include <iostream>
 #include <functional>

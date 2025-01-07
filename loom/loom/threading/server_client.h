@@ -1,6 +1,7 @@
 #ifndef LOOM_THREADING_SERVER_CLIENT_H
 #define LOOM_THREADING_SERVER_CLIENT_H
 
+#include <optional>
 #include "transmitter_receiver.h"
 
 namespace loom

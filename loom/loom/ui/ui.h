@@ -1,13 +1,7 @@
-#ifndef LOOM_UI_UI
-#define LOOM_UI_UI
+#ifndef LOOM_UI_UI_H
+#define LOOM_UI_UI_H
 
-#define IMGUI_DEFINE_MATH_OPERATORS
-#include <imgui.h>
-#include <immapp/immapp.h>
-#include <imgui_internal.h>
-#include <implot/implot.h>
-#include <unordered_map>
-#include "../../external/IconFontCppHeaders/IconsMaterialDesign.h"
+#include "../external/IconFontCppHeaders/IconsMaterialDesign.h"
 #include "style.h"
 
 namespace loom::ui
@@ -29,21 +23,7 @@ Begin(const char *name, bool *open = NULL, bool usePadding = true, const std::fu
 
 void End();
 
-void loadFont()
-{
-    float fontSize = 16.0f;
-
-    HelloImGui::FontLoadingParams mainFontLoadingParams;
-    mainFontLoadingParams.useFullGlyphRange = true;
-    HelloImGui::LoadFont("fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf" , fontSize, mainFontLoadingParams);
-
-    HelloImGui::FontLoadingParams iconFontLoadingParams;
-    iconFontLoadingParams.mergeToLastFont = true;
-    iconFontLoadingParams.useFullGlyphRange = true;
-    iconFontLoadingParams.fontConfig.GlyphOffset = {0, 4 * HelloImGui::DpiFontLoadingFactor()};
-    //HelloImGui::LoadFont("fonts/MaterialIcons-Regular.ttf" , fontSize, iconFontLoadingParams);
-    HelloImGui::LoadFont("fonts/MaterialSymbolsRounded-Light.ttf" , fontSize * 1.4, iconFontLoadingParams);
-}
+void loadFont();
 
 bool InputText(const char *label, const char *hint, char *buf, size_t buf_size, ImGuiInputTextFlags flags = 0);
 
@@ -81,7 +61,7 @@ bool InputTextMultiLineStdString(const char *label, std::string *str, const ImVe
 
 bool CheckBox(char *text, bool *value);
 
-bool BeginRightAlign(char* id="rightAlign");
+bool BeginRightAlign(const char* id="rightAlign");
 
 void EndRightAlign();
 

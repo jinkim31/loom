@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <functional>
+#include <atomic>
 #include "transmitter_receiver.h"
 #include "server_client.h"
 
@@ -133,7 +134,7 @@ private:
     void runLoop();
     static void* entryPoint(void *param);
     std::chrono::high_resolution_clock::duration mLoopInterval;
-    std::atomic<bool> mIsThreadRunning, mEventLoopBreakFlag;
+    std::atomic<bool>   mIsThreadRunning, mEventLoopBreakFlag;
     std::thread mThread;
 };
 

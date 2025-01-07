@@ -1,7 +1,7 @@
 #ifndef LOOM_UI_STYLE_H
 #define LOOM_UI_STYLE_H
 
-#include <imgui.h>
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <immapp/immapp.h>
 #include <imgui_internal.h>
 #include <implot/implot.h>

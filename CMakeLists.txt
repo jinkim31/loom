@@ -1,23 +1,23 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.27)
 project(loom)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_subdirectory(external/imgui_bundle)
 add_subdirectory(external/poco)
+add_subdirectory(external/imgui_bundle)
 
-add_library(loom
-        loom/threading/thread.cpp
-        loom/threading/queue.cpp
-        loom/threading/transmitter_receiver.cpp
-        loom/threading/server_client.cpp
-        loom/state_machine/state_machine.cpp
-        loom/ui/ui.cpp
-        loom/ui/style.cpp
-        loom/comm/udp_client.cpp)
+add_library(loom STATIC
+        loom/loom/threading/thread.cpp
+        loom/loom/threading/queue.cpp
+        loom/loom/threading/transmitter_receiver.cpp
+        loom/loom/threading/server_client.cpp
+        loom/loom/state_machine/state_machine.cpp
+        loom/loom/ui/ui.cpp
+        loom/loom/ui/style.cpp
+        loom/loom/comm/udp_client.cpp)
 
 target_link_libraries(loom PRIVATE Poco::Net PUBLIC imgui_bundle)
-target_include_directories(loom PUBLIC .)
+target_include_directories(loom PUBLIC loom)
 
 add_executable(loom_example_threading_transmitter_receiver examples/threading/transmitter_receiver.cpp)
 target_link_libraries(loom_example_threading_transmitter_receiver PRIVATE loom)

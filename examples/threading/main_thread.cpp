@@ -1,4 +1,4 @@
-#include "loom/loom.h"
+#include "loom/loom/loom.h"
 
 
 class MainThread : public loom::ManualThread
