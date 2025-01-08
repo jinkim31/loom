@@ -24,9 +24,9 @@ void loom::ui::EndMainWindow()
 void loom::ui::HLine(float margin)
 {
     auto draw_list = ImGui::GetCurrentWindow()->DrawList;
-    draw_list->AddLine(
+    draw_list->AddRectFilled(
             ImGui::GetCursorScreenPos() + ImVec2{0, 0},
-            ImGui::GetCursorScreenPos() + ImVec2(ImGui::GetContentRegionAvail().x, 0),
+            ImGui::GetCursorScreenPos() + ImVec2(ImGui::GetContentRegionAvail().x, 1),
             ImGui::GetColorU32(getStyle().border));
     ImGui::Dummy({0, 1});
 }

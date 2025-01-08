@@ -90,7 +90,7 @@ void loom::ui::setStyle(const loom::ui::Style &style)
     imStyle->SeparatorTextBorderSize = 1;
     imStyle->SeparatorTextPadding = {4, 4};
     imStyle->Alpha = 1.0f;
-    imStyle->AntiAliasedLines = false;
+    //imStyle->AntiAliasedLines = false;
 
     ImPlot::GetStyle().Colors[ImPlotCol_PlotBg] = style.background;
     ImPlot::GetStyle().Colors[ImPlotCol_FrameBg] = style.foreground;
