@@ -133,7 +133,7 @@ loom::ui::Style loom::ui::darkStyle()
     style.highlight = colorRGB(41, 98, 255);
     style.background = colorRGB(0, 0, 0);
     style.foreground = colorRGB(35, 36, 38);
-    style.border = colorRGB(25, 26, 27);
+    style.border = colorRGB(23, 24, 25);
     style.text = colorRGB(227, 228, 230);
     style.subtext = colorA(style.text, 190);
     return style;
